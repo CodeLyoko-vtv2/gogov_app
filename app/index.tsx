@@ -1,22 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native';
+// app/index.tsx
+import React from 'react';
+// Sửa đường dẫn import về màn hình LichSuSOSScreen
+import LichSuSOSScreen from '../src/screens/UserApp/Profile/LichSuSOSScreen';
 
 export default function HomeScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Bắt đầu làm app của bạn tại đây!</Text>
-    </View>
+    <LichSuSOSScreen />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  }
-});
