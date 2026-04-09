@@ -1,28 +1,36 @@
 // src/screens/UserApp/Profile/CaiDatScreen.js
 import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  TouchableOpacity, 
-  Image, 
-  ScrollView 
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
-import { COLORS } from '../../../constants/colors';
+// 1. Import useRouter để điều hướng
+import { useRouter } from 'expo-router';
 
-// IMPORT COMPONENT CUSTOM TOGGLE MỚI
 import CustomToggle from '../../../components/CustomToggle';
+import { COLORS } from '../../../constants/colors';
 
 export default function CaiDatScreen() {
   const [isNotifEnabled, setIsNotifEnabled] = useState(true);
   const [isLocationEnabled, setIsLocationEnabled] = useState(true);
 
+  // 2. Khởi tạo router
+  const router = useRouter(); 
+
   const SectionHeader = ({ title }) => (
     <Text style={styles.sectionHeader}>{title}</Text>
   );
 
-  const MenuItem = ({ iconSource, title, rightText, hideBorder, tintIcon=true }) => (
-    <TouchableOpacity style={[styles.itemContainer, hideBorder ? styles.noBorder : null]}>
+  // 3. Thêm prop 'onPress' vào MenuItem
+  const MenuItem = ({ iconSource, title, rightText, hideBorder, tintIcon=true, onPress }) => (
+    <TouchableOpacity 
+      style={[styles.itemContainer, hideBorder ? styles.noBorder : null]}
+      onPress={onPress} // 4. Gắn hàm onPress vào TouchableOpacity
+    >
       <View style={styles.itemLeft}>
         <View style={styles.iconWrapper}>
           <Image 
@@ -40,8 +48,6 @@ export default function CaiDatScreen() {
     </TouchableOpacity>
   );
 
-  // --- SỬA COMPONENT SWITCH ITEM ---
-  // Đổi tên để phân biệt, sử dụng CustomToggle mới
   const CustomSwitchItem = ({ iconSource, title, value, onValueChange, hideBorder }) => (
     <View style={[styles.itemContainer, hideBorder ? styles.noBorder : null]}>
       <View style={styles.itemLeft}>
@@ -50,8 +56,6 @@ export default function CaiDatScreen() {
         </View>
         <Text style={styles.itemTitle}>{title}</Text>
       </View>
-      
-      {/* GỌI CUSTOM TOGGLE Ở ĐÂY */}
       <CustomToggle 
         isOn={value} 
         onToggle={() => onValueChange(!value)} 
@@ -61,7 +65,6 @@ export default function CaiDatScreen() {
 
   return (
     <View style={styles.mainContainer}>
-      {/* THANH HEADER */}
       <View style={styles.header}>
         <View style={styles.headerContent}>
           <TouchableOpacity style={styles.backButton}>
@@ -84,16 +87,17 @@ export default function CaiDatScreen() {
             iconSource={require('../../../../assets/icons/FAQ Circle.png')}
             title="Thông tin cá nhân" 
           />
+          {/* 5. GỌI LỆNH CHUYỂN TRANG Ở ĐÂY */}
           <MenuItem 
             iconSource={require('../../../../assets/icons/hugeicons_transaction-history.png')} 
             title="Lịch sử SOS" 
             hideBorder={true} 
+            onPress={() => router.push('/LichSuSOS')} 
           />
         </View>
 
         <SectionHeader title="CÀI ĐẶT CHUNG" />
         <View style={styles.card}>
-          {/* ĐỔI THÀNH CUSTOMSWITCHITEM */}
           <CustomSwitchItem 
             iconSource={require('../../../../assets/icons/Vector.png')}
             title="Quản lý thông báo" 
@@ -125,6 +129,7 @@ export default function CaiDatScreen() {
             title="Về ứng dụng" 
             hideBorder={true} 
             tintIcon={false} 
+            onPress={() => router.push('/VeUngDung1')}
           />
         </View>
 
@@ -146,23 +151,14 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%', 
+    height: 154,
     backgroundColor: '#FEFAFB',
-    paddingTop: 40, 
-    paddingBottom: 25,
-    
-    // Đổ bóng (Drop shadow) chuẩn theo Figma cho iOS
+    paddingTop: 77, 
     shadowColor: '#CECECE',
-    shadowOffset: {
-      width: 0,
-      height: 4.56,
-    },
+    shadowOffset: { width: 0, height: 4.56 },
     shadowOpacity: 0.35,
     shadowRadius: 5.7,
-    
-    // Đổ bóng cho Android (Android không nhận shadow color tuỳ chỉnh mượt như iOS, dùng elevation là chuẩn nhất)
     elevation: 5, 
-
-    // Đảm bảo header luôn nằm trên ScrollView để bóng đổ xuống không bị che mất
     zIndex: 1, 
   },
   headerContent: {
@@ -180,7 +176,7 @@ const styles = StyleSheet.create({
     tintColor: COLORS.primary, 
   },
   headerTitle: {
-    fontSize: 30, // Cỡ chữ đã tăng lên 30 như yêu cầu trước
+    fontSize: 30, 
     fontWeight: 'bold',
     color: COLORS.primary,
   },
