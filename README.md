@@ -44,3 +44,4 @@ npm start
    *Cú pháp:* \`git checkout -b feature/ten-man-hinh\` (VD: \`feature/login\`).
 3. Code xong, push nhánh của mình lên Github và báo nhóm trưởng gộp code.
 4. Ai cần cài thêm thư viện gì mới bằng lệnh \`npm install...\` thì phải nhắn lên group chat để mọi người biết và \`pull\` về.
+5. Đặt tên là tên Frame figma nhưng chuyển nó về dạng Không dấu, Viết hoa chữ cái đầu (PascalCase). vd: CaiDatScreen.js
