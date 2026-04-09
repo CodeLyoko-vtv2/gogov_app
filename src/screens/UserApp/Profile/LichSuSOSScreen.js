@@ -1,25 +1,34 @@
 // src/screens/UserApp/Profile/LichSuSOSScreen.js
+import { useRouter } from 'expo-router';
 import React from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  TouchableOpacity, 
-  Image, 
-  ScrollView 
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
+
 import { COLORS } from '../../../constants/colors';
 
 export default function LichSuSOSScreen() {
+  const router = useRouter();
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.header}>
         <View style={styles.headerContent}>
-          <TouchableOpacity style={styles.backButton}>
-            <Image 
-              source={require('../../../../assets/icons/Frame 2.png')} 
-              style={styles.headerIcon} 
+          {/* Đưa onPress lên thẻ TouchableOpacity mới đúng chuẩn */}
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => router.back()} // Dùng .back() để quay về trang cũ
+          >
+            <Image
+              source={require('../../../../assets/icons/Frame 2.png')}
+              style={styles.headerIcon}
               resizeMode="contain"
+            // Xóa onPress ở đây đi vì Image không hiểu lệnh này
             />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>LỊCH SỬ SOS</Text>
@@ -33,13 +42,13 @@ export default function LichSuSOSScreen() {
           <View style={styles.divider} />
 
           <View style={styles.timelineContainer}>
-            
+
             <View style={styles.timelineRow}>
               <Text style={styles.timeText}>17:28</Text>
               <View style={styles.iconColumn}>
-                <Image 
-                  source={require('../../../../assets/icons/Vector5.png')} 
-                  style={styles.dotIcon} 
+                <Image
+                  source={require('../../../../assets/icons/Vector5.png')}
+                  style={styles.dotIcon}
                   resizeMode="contain"
                 />
                 <View style={styles.verticalLine} />
@@ -52,9 +61,9 @@ export default function LichSuSOSScreen() {
             <View style={styles.timelineRow}>
               <Text style={styles.timeText}>17:40</Text>
               <View style={styles.iconColumn}>
-                <Image 
-                  source={require('../../../../assets/icons/Vector4.png')} 
-                  style={styles.arrowIcon} 
+                <Image
+                  source={require('../../../../assets/icons/Vector4.png')}
+                  style={styles.arrowIcon}
                   resizeMode="contain"
                 />
               </View>
@@ -76,33 +85,33 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   header: {
-    width: '100%', 
+    width: '100%',
+    height: 154,
     backgroundColor: '#FEFAFB',
-    paddingTop: 40, 
-    paddingBottom: 25,
+    paddingTop: 77,
     shadowColor: '#CECECE',
     shadowOffset: { width: 0, height: 4.56 },
     shadowOpacity: 0.35,
     shadowRadius: 5.7,
-    elevation: 5, 
-    zIndex: 1, 
+    elevation: 5,
+    zIndex: 1,
   },
   headerContent: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20, 
+    paddingHorizontal: 20,
   },
   backButton: {
     padding: 5,
   },
   headerIcon: {
-    width: 20, 
+    width: 20,
     height: 20,
-    tintColor: COLORS.primary, 
+    tintColor: COLORS.primary,
   },
   headerTitle: {
-    fontSize: 30, 
+    fontSize: 30,
     fontWeight: 'bold',
     color: COLORS.primary,
   },
@@ -137,7 +146,7 @@ const styles = StyleSheet.create({
   },
   timelineRow: {
     flexDirection: 'row',
-    alignItems: 'flex-start', 
+    alignItems: 'flex-start',
   },
   timeText: {
     width: 45,
