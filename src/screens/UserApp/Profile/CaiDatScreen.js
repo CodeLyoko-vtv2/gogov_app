@@ -12,11 +12,11 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // GỌI CÁC COMPONENT DÙNG CHUNG
-import CustomToggle from "../../../components/CustomToggle";
-import UserArrow from "../../../components/UserArrow";
-import UserHeader from "../../../components/UserHeader";
-import UserTabs from "../../../components/UserTabs";
-import { COLORS } from "../../../constants/colors";
+import CustomToggle from '../../../components/CustomToggle';
+import UserHeader from '../../../components/UserHeader';
+import UserArrow from '../../../components/UserArrow';
+import UserTabs from '../../../components/UserTabs'; 
+import { COLORS } from '../../../constants/colors';
 
 export default function CaiDatScreen() {
   const [isNotifEnabled, setIsNotifEnabled] = useState(true);
@@ -82,18 +82,17 @@ export default function CaiDatScreen() {
   return (
     <View style={styles.mainContainer}>
       {/* NÚT BACK: Ép về Home bằng replace (chuyển 0s theo layout) */}
-      <UserHeader
-        title="CÀI ĐẶT"
-        onBackPress={() => router.replace("/HomeSOS")}
+      <UserHeader 
+        title="CÀI ĐẶT" 
+        onBackPress={() => router.replace('/HomeSOS')} 
       />
 
-      <ScrollView
-        style={styles.container}
+      <ScrollView 
+        style={styles.container} 
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingBottom: Math.max(insets.bottom + 100, 130),
-        }}
+        contentContainerStyle={{ paddingBottom: 130 }}
       >
+        
         <SectionHeader title="TÀI KHOẢN" />
         <View style={styles.card}>
           <MenuItem

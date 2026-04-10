@@ -107,6 +107,7 @@ export default function ThongBao2Screen() {
           isEmergency={true}
           hasSosIcon={true}
           isTopCard={true} 
+          onPress={() => router.push("/TheoDoiTrangThaiDoiCuuHo")} // 6. Điều hướng đến trang theo dõi khi bấm vào thẻ này
         />
 
         <NotificationItem 
@@ -115,6 +116,7 @@ export default function ThongBao2Screen() {
           updateTime="06/11/2025"
           icon={require('../../../../assets/icons/Rain&Thunderstorm.png')}
           isEmergency={true}
+          onPress={() => router.push("/CanhBaoBao")} // 6. Điều hướng đến trang cảnh báo bão khi bấm vào thẻ này
         />
 
         <NotificationItem 

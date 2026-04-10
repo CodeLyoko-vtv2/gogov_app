@@ -84,7 +84,7 @@ export default function CanhBaoNgapLutScreen() {
       <View style={styles.bottomButtonContainer}>
         <TouchableOpacity 
           style={styles.mainButton}
-          onPress={() => router.push('/Map')}
+          onPress={() => router.push('/BanDo')}
         >
           <Text style={styles.mainButtonText}>Xem trên bản đồ</Text>
         </TouchableOpacity>
@@ -217,6 +217,7 @@ const styles = StyleSheet.create({
   },
   bottomButtonContainer: {
     padding: 20,
+    paddingBottom: 30,
     backgroundColor: COLORS.white,
   },
   mainButton: {
