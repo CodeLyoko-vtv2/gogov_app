@@ -84,7 +84,11 @@ export default function HomeSOSScreen() {
         </View>
 
         {/* NÚT CHỌN LOẠI CỨU HỘ */}
-        <TouchableOpacity style={styles.secondaryButton} activeOpacity={0.7}>
+        <TouchableOpacity
+          style={styles.secondaryButton}
+          activeOpacity={0.7}
+          onPress={() => router.push("/HatNhan1")}
+        >
           <Text style={styles.secondaryButtonText}>Chọn loại cứu hộ</Text>
         </TouchableOpacity>
       </ScrollView>
