@@ -4,17 +4,19 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import { COLORS } from '../constants/colors';
 
-// Nhận prop 'title' để thay đổi tiêu đề linh hoạt theo từng màn hình
-export default function Header({ title }) {
+// Bổ sung prop onBackPress để nhận lệnh điều hướng tùy chỉnh
+export default function UserHeader({ title, onBackPress }) {
   const router = useRouter();
 
   return (
     <View style={styles.header}>
       <View style={styles.headerContent}>
-        {/* Nút Back đã được tích hợp sẵn lệnh router.back() */}
-        <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+        {/* Nếu có onBackPress truyền vào thì chạy hàm đó, ngược lại mặc định router.back() */}
+        <TouchableOpacity 
+          style={styles.backButton} 
+          onPress={onBackPress ? onBackPress : () => router.back()}
+        >
           <Image 
-            // Lưu ý: Đường dẫn ảnh lùi ra 2 cấp thư mục (../../)
             source={require('../../assets/icons/Frame 2.png')} 
             style={styles.backIcon} 
             resizeMode="contain"
@@ -24,14 +26,13 @@ export default function Header({ title }) {
         {/* Tiêu đề động */}
         <Text style={styles.headerTitle}>{title}</Text>
         
-        {/* Cục View rỗng để cân bằng Flexbox, giúp Tiêu đề luôn nằm giữa */}
+        {/* Cục View rỗng để cân bằng Flexbox */}
         <View style={{ width: 24 }} />
       </View>
     </View>
   );
 }
 
-// Bê nguyên bộ "bí kíp" Style của Header vào đây 1 lần duy nhất
 const styles = StyleSheet.create({
   header: {
     width: '100%', 
@@ -51,6 +52,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20, 
+    flex: 1, // Đảm bảo nội dung căn giữa theo chiều dọc của khoảng trống còn lại
   },
   backButton: {
     padding: 5,
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
     tintColor: COLORS.primary, 
   },
   headerTitle: {
-    fontSize: 28, // Dùng 28 làm chuẩn an toàn
+    fontSize: 28, 
     fontWeight: '800',
     color: COLORS.primary,
     textAlign: 'center',
