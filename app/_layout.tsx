@@ -6,44 +6,25 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 export default function RootLayout() {
   return (
     <SafeAreaProvider>
-      {/* StatusBar: Giúp các icon pin, sóng, giờ trên điện thoại 
-        hiển thị đẹp trên nền trắng của app 
-      */}
       <StatusBar style="dark" />
 
       <Stack
         screenOptions={{
-          // 1. Ẩn header mặc định của hệ thống để dùng Header custom chuẩn Figma
           headerShown: false,
-
-          // 2. Cấu hình hiệu ứng trượt slide từ phải sang trái
-          animation: 'slide_from_right',
-
-          // 3. Thời gian thực hiện hiệu ứng (300ms là tốc độ chuẩn, mượt mà)
-          animationDuration: 300,
-
-          // 4. Giữ nền trắng cho toàn bộ các màn hình trong lúc chuyển cảnh
-          // Việc này giúp tránh hiện tượng lộ nền đen/xám khi đang trượt
+          // MẶC ĐỊNH: Tất cả sẽ lướt từ phải sang (như LichSuSOS, các trang con...)
+          animation: 'slide_from_right', 
           contentStyle: { backgroundColor: '#FFFFFF' },
         }}
       >
-        {/* Định nghĩa các màn hình (Routes). 
-          Tên name phải trùng với tên file trong thư mục app/
-        */}
-        
-        {/* Màn hình chính (Cài đặt) */}
-        <Stack.Screen 
-          name="index" 
-          options={{
-            // Bạn có thể tùy chỉnh riêng cho từng màn hình ở đây nếu muốn
-          }} 
-        />
+        {/* DANH SÁCH CÁC TRANG KHÔNG LƯỚT (CHUYỂN 0 GIÂY) */}
+        <Stack.Screen name="index" options={{ animation: 'none' }} />
+        <Stack.Screen name="HomeSOS" options={{ animation: 'none' }} />
+        <Stack.Screen name="Network" options={{ animation: 'none' }} />
+        <Stack.Screen name="Call" options={{ animation: 'none' }} />
+        <Stack.Screen name="CaiDat" options={{ animation: 'none' }} />
+        <Stack.Screen name="SOSVoice" options={{ animation: 'none' }} />
 
-        {/* Màn hình Lịch sử SOS */}
-        <Stack.Screen 
-          name="LichSuSOS" 
-        />
-
+        {/* CÁC TRANG CÒN LẠI (LichSuSOS, TroGiup...) SẼ TỰ ĐỘNG LƯỚT VÌ THEO MẶC ĐỊNH Ở TRÊN */}
       </Stack>
     </SafeAreaProvider>
   );
