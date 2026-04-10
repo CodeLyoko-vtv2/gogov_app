@@ -6,52 +6,34 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 export default function RootLayout() {
   return (
     <SafeAreaProvider>
-      {/* StatusBar: Giúp các icon pin, sóng, giờ trên điện thoại 
-        hiển thị đẹp trên nền trắng của app 
-      */}
       <StatusBar style="dark" />
 
       <Stack
         screenOptions={{
-          // 1. Ẩn header mặc định của hệ thống để dùng Header custom chuẩn Figma
           headerShown: false,
-
-          // 2. Cấu hình hiệu ứng trượt slide từ phải sang trái
           animation: "slide_from_right",
-
-          // 3. Thời gian thực hiện hiệu ứng (300ms là tốc độ chuẩn, mượt mà)
           animationDuration: 300,
-
-          // 4. Giữ nền trắng cho toàn bộ các màn hình trong lúc chuyển cảnh
-          // Việc này giúp tránh hiện tượng lộ nền đen/xám khi đang trượt
           contentStyle: { backgroundColor: "#FFFFFF" },
         }}
       >
-        {/* Định nghĩa các màn hình (Routes). 
-          Tên name phải trùng với tên file trong thư mục app/
-        */}
+        {/* Các trang chính chuyển không animation */}
+        <Stack.Screen name="index" options={{ animation: "none" }} />
+        <Stack.Screen name="HomeSOS" options={{ animation: "none" }} />
+        <Stack.Screen name="CaiDat" options={{ animation: "none" }} />
+        <Stack.Screen name="SOSVoice" options={{ animation: "none" }} />
 
-        {/* Màn hình chính (Cài đặt) */}
-        <Stack.Screen
-          name="index"
-          options={
-            {
-              // Bạn có thể tùy chỉnh riêng cho từng màn hình ở đây nếu muốn
-            }
-          }
-        />
-
-        {/* Màn hình Lịch sử SOS */}
+        {/* Các trang còn lại dùng animation mặc định */}
         <Stack.Screen name="LichSuSOS" />
-
-        {/* Màn hình gửi cảnh báo khẩn cấp */}
         <Stack.Screen name="SendingAlert" />
-
-        {/* Màn hình xác nhận huỷ gửi tín hiệu */}
         <Stack.Screen name="XacNhanHuy" />
-
-        {/* Màn hình đã gửi tín hiệu SOS */}
         <Stack.Screen name="DaGuiTinHieu" />
+        <Stack.Screen name="DaGuiTinHieu3" />
+        <Stack.Screen name="TroGiupPhanHoi1" />
+        <Stack.Screen name="TroGiupPhanHoi2" />
+        <Stack.Screen name="TroGiupPhanHoi4" />
+        <Stack.Screen name="TroGiupPhanHoi5" />
+        <Stack.Screen name="VeUngDung1" />
+        <Stack.Screen name="VeUngDung2" />
       </Stack>
     </SafeAreaProvider>
   );
