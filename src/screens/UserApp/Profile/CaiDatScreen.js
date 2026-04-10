@@ -8,28 +8,27 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-// 1. Import useRouter để điều hướng
 import { useRouter } from 'expo-router';
 
+// GỌI CÁC COMPONENT DÙNG CHUNG
 import CustomToggle from '../../../components/CustomToggle';
+import UserHeader from '../../../components/UserHeader';
+import UserArrow from '../../../components/UserArrow'; // Thêm mũi tên dùng chung
 import { COLORS } from '../../../constants/colors';
 
 export default function CaiDatScreen() {
   const [isNotifEnabled, setIsNotifEnabled] = useState(true);
   const [isLocationEnabled, setIsLocationEnabled] = useState(true);
-
-  // 2. Khởi tạo router
   const router = useRouter(); 
 
   const SectionHeader = ({ title }) => (
     <Text style={styles.sectionHeader}>{title}</Text>
   );
 
-  // 3. Thêm prop 'onPress' vào MenuItem
   const MenuItem = ({ iconSource, title, rightText, hideBorder, tintIcon=true, onPress }) => (
     <TouchableOpacity 
       style={[styles.itemContainer, hideBorder ? styles.noBorder : null]}
-      onPress={onPress} // 4. Gắn hàm onPress vào TouchableOpacity
+      onPress={onPress} 
     >
       <View style={styles.itemLeft}>
         <View style={styles.iconWrapper}>
@@ -43,7 +42,9 @@ export default function CaiDatScreen() {
       </View>
       <View style={styles.itemRight}>
         {rightText ? <Text style={styles.rightText}>{rightText}</Text> : null}
-        <Text style={styles.arrowIcon}>›</Text>
+        
+        {/* THAY THẾ BẰNG COMPONENT MŨI TÊN CHUẨN */}
+        <UserArrow />
       </View>
     </TouchableOpacity>
   );
@@ -65,19 +66,7 @@ export default function CaiDatScreen() {
 
   return (
     <View style={styles.mainContainer}>
-      <View style={styles.header}>
-        <View style={styles.headerContent}>
-          <TouchableOpacity style={styles.backButton}>
-            <Image 
-              source={require('../../../../assets/icons/Frame 2.png')} 
-              style={styles.headerIcon} 
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>CÀI ĐẶT</Text>
-          <View style={{ width: 24 }} />
-        </View>
-      </View>
+      <UserHeader title="CÀI ĐẶT" />
 
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         
@@ -87,7 +76,6 @@ export default function CaiDatScreen() {
             iconSource={require('../../../../assets/icons/FAQ Circle.png')}
             title="Thông tin cá nhân" 
           />
-          {/* 5. GỌI LỆNH CHUYỂN TRANG Ở ĐÂY */}
           <MenuItem 
             iconSource={require('../../../../assets/icons/hugeicons_transaction-history.png')} 
             title="Lịch sử SOS" 
@@ -123,6 +111,7 @@ export default function CaiDatScreen() {
           <MenuItem 
             iconSource={require('../../../../assets/icons/FAQ Circle 1.png')}
             title="Trợ giúp và phản hồi" 
+            onPress={() => router.push('/TroGiupPhanHoi1')}
           />
           <MenuItem 
             iconSource={require('../../../../assets/icons/iphone-01.png')} 
@@ -148,37 +137,6 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     backgroundColor: COLORS.white, 
-  },
-  header: {
-    width: '100%', 
-    height: 154,
-    backgroundColor: '#FEFAFB',
-    paddingTop: 77, 
-    shadowColor: '#CECECE',
-    shadowOffset: { width: 0, height: 4.56 },
-    shadowOpacity: 0.35,
-    shadowRadius: 5.7,
-    elevation: 5, 
-    zIndex: 1, 
-  },
-  headerContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20, 
-  },
-  backButton: {
-    padding: 5,
-  },
-  headerIcon: {
-    width: 20, 
-    height: 20,
-    tintColor: COLORS.primary, 
-  },
-  headerTitle: {
-    fontSize: 30, 
-    fontWeight: 'bold',
-    color: COLORS.primary,
   },
   container: {
     flex: 1,
@@ -250,11 +208,7 @@ const styles = StyleSheet.create({
     color: COLORS.gray,
     marginRight: 10,
   },
-  arrowIcon: {
-    fontSize: 22,
-    color: '#CCC',
-    marginBottom: 2,
-  },
+  // ĐÃ XÓA style arrowIcon Ở ĐÂY VÌ ĐÃ DÙNG COMPONENT CHUNG
   logoutButton: {
     flexDirection: 'row',
     alignItems: 'center',

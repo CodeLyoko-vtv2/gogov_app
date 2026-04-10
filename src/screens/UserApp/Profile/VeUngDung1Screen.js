@@ -1,48 +1,25 @@
 // src/screens/UserApp/Profile/VeUngDung1Screen.js
 import React from 'react';
+import { useRouter } from 'expo-router';
 import { 
   View, 
   Text, 
   StyleSheet, 
-  TouchableOpacity, 
   Image, 
   ScrollView 
 } from 'react-native';
-import { useRouter } from 'expo-router';
+
+// Gọi các Component dùng chung
+import UserHeader from '../../../components/UserHeader';
+import UserMenuCard from '../../../components/UserMenuCard'; 
 import { COLORS } from '../../../constants/colors';
 
 export default function VeUngDung1Screen() {
   const router = useRouter();
 
-  // Component Item con cho danh sách (Hướn dẫn, Điều khoản...)
-  const InfoItem = ({ iconSource, title }) => (
-    <TouchableOpacity style={styles.cardItem} activeOpacity={0.7}>
-      <View style={styles.cardLeft}>
-        <View style={styles.iconBox}>
-          <Image source={iconSource} style={styles.itemIcon} resizeMode="contain" />
-        </View>
-        <Text style={styles.itemTitle}>{title}</Text>
-      </View>
-      <Text style={styles.arrowIcon}>›</Text>
-    </TouchableOpacity>
-  );
-
   return (
     <View style={styles.mainContainer}>
-      {/* HEADER: Áp dụng ghi nhớ Height 154, PaddingTop 77 */}
-      <View style={styles.header}>
-        <View style={styles.headerContent}>
-          <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-            <Image 
-              source={require('../../../../assets/icons/Frame 2.png')} 
-              style={styles.backIcon} 
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>THÔNG TIN ỨNG DỤNG</Text>
-          <View style={{ width: 24 }} />
-        </View>
-      </View>
+      <UserHeader title="THÔNG TIN ỨNG DỤNG" />
 
       <ScrollView contentContainerStyle={styles.contentScroll} showsVerticalScrollIndicator={false}>
         
@@ -57,17 +34,18 @@ export default function VeUngDung1Screen() {
           <Text style={styles.versionText}>Phiên bản 1.0.2</Text>
         </View>
 
-        {/* DANH SÁCH CÁC MỤC */}
+        {/* DANH SÁCH CÁC MỤC BẰNG COMPONENT CHUNG */}
         <View style={styles.listSection}>
-          <InfoItem 
+          <UserMenuCard 
             iconSource={require('../../../../assets/icons/Vector6.png')} 
             title="Hướng dẫn sử dụng" 
+            onPress={() => router.push('/VeUngDung2')}
           />
-          <InfoItem 
+          <UserMenuCard 
             iconSource={require('../../../../assets/icons/Vector7.png')} 
             title="Điều khoản dịch vụ" 
           />
-          <InfoItem 
+          <UserMenuCard 
             iconSource={require('../../../../assets/icons/Vector8.png')} 
             title="Chính sách bảo mật" 
           />
@@ -78,40 +56,11 @@ export default function VeUngDung1Screen() {
   );
 }
 
+// Xóa sạch các style của item cũ, file nhẹ đi một nửa!
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: COLORS.white, // Ghi nhớ: Nền trắng
-  },
-  header: {
-    height: 154, // Ghi nhớ
-    paddingTop: 77, // Ghi nhớ
-    backgroundColor: '#FEFAFB', // Ghi nhớ
-    paddingBottom: 25,
-    // Đổ bóng chuẩn Figma
-    shadowColor: '#CECECE',
-    shadowOffset: { width: 0, height: 4.56 },
-    shadowOpacity: 0.35,
-    shadowRadius: 5.7,
-    elevation: 5,
-    zIndex: 10,
-  },
-  headerContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-  },
-  backIcon: {
-    width: 24,
-    height: 24,
-    tintColor: COLORS.primary,
-  },
-  headerTitle: {
-    fontSize: 24, // Giảm nhẹ so với 30 để không bị tràn dòng
-    fontWeight: 'bold',
-    color: COLORS.primary,
-    textAlign: 'center',
+    backgroundColor: COLORS.white, 
   },
   contentScroll: {
     alignItems: 'center',
@@ -140,49 +89,5 @@ const styles = StyleSheet.create({
   listSection: {
     width: '100%',
     paddingHorizontal: 20,
-  },
-  cardItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: COLORS.white,
-    padding: 16,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#F0F0F0',
-    marginBottom: 15,
-    // Đổ bóng nhẹ cho item
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  cardLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  iconBox: {
-    width: 36,
-    height: 36,
-    backgroundColor: '#FFF0F0',
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 15,
-  },
-  itemIcon: {
-    width: 20,
-    height: 20,
-    tintColor: COLORS.primary,
-  },
-  itemTitle: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#000',
-  },
-  arrowIcon: {
-    fontSize: 22,
-    color: '#CCC',
   }
 });
