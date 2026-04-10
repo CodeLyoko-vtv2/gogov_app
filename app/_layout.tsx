@@ -1,7 +1,7 @@
 // app/_layout.tsx
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function RootLayout() {
   return (
@@ -11,20 +11,29 @@ export default function RootLayout() {
       <Stack
         screenOptions={{
           headerShown: false,
-          // MẶC ĐỊNH: Tất cả sẽ lướt từ phải sang (như LichSuSOS, các trang con...)
-          animation: 'slide_from_right', 
-          contentStyle: { backgroundColor: '#FFFFFF' },
+          animation: "slide_from_right",
+          animationDuration: 300,
+          contentStyle: { backgroundColor: "#FFFFFF" },
         }}
       >
-        {/* DANH SÁCH CÁC TRANG KHÔNG LƯỚT (CHUYỂN 0 GIÂY) */}
-        <Stack.Screen name="index" options={{ animation: 'none' }} />
-        <Stack.Screen name="HomeSOS" options={{ animation: 'none' }} />
-        <Stack.Screen name="Network" options={{ animation: 'none' }} />
-        <Stack.Screen name="Call" options={{ animation: 'none' }} />
-        <Stack.Screen name="CaiDat" options={{ animation: 'none' }} />
-        <Stack.Screen name="SOSVoice" options={{ animation: 'none' }} />
+        {/* Các trang chính chuyển không animation */}
+        <Stack.Screen name="index" options={{ animation: "none" }} />
+        <Stack.Screen name="HomeSOS" options={{ animation: "none" }} />
+        <Stack.Screen name="CaiDat" options={{ animation: "none" }} />
+        <Stack.Screen name="SOSVoice" options={{ animation: "none" }} />
 
-        {/* CÁC TRANG CÒN LẠI (LichSuSOS, TroGiup...) SẼ TỰ ĐỘNG LƯỚT VÌ THEO MẶC ĐỊNH Ở TRÊN */}
+        {/* Các trang còn lại dùng animation mặc định */}
+        <Stack.Screen name="LichSuSOS" />
+        <Stack.Screen name="SendingAlert" />
+        <Stack.Screen name="XacNhanHuy" />
+        <Stack.Screen name="DaGuiTinHieu" />
+        <Stack.Screen name="DaGuiTinHieu3" />
+        <Stack.Screen name="TroGiupPhanHoi1" />
+        <Stack.Screen name="TroGiupPhanHoi2" />
+        <Stack.Screen name="TroGiupPhanHoi4" />
+        <Stack.Screen name="TroGiupPhanHoi5" />
+        <Stack.Screen name="VeUngDung1" />
+        <Stack.Screen name="VeUngDung2" />
       </Stack>
     </SafeAreaProvider>
   );
