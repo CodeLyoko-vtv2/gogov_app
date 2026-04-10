@@ -24,9 +24,18 @@ export default function RootLayout() {
 
         {/* Các trang còn lại dùng animation mặc định */}
         <Stack.Screen name="LichSuSOS" />
-        <Stack.Screen name="SendingAlert" />
-        <Stack.Screen name="XacNhanHuy" />
-        <Stack.Screen name="DaGuiTinHieu" />
+        <Stack.Screen
+          name="SendingAlert"
+          options={{ contentStyle: { backgroundColor: "#FFFFFF" } }}
+        />
+        <Stack.Screen
+          name="XacNhanHuy"
+          options={{ contentStyle: { backgroundColor: "#111111" } }}
+        />
+        <Stack.Screen
+          name="DaGuiTinHieu"
+          options={{ contentStyle: { backgroundColor: "#111111" } }}
+        />
         <Stack.Screen name="DaGuiTinHieu3" />
         <Stack.Screen name="TroGiupPhanHoi1" />
         <Stack.Screen name="TroGiupPhanHoi2" />

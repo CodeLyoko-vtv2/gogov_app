@@ -1,21 +1,23 @@
 // src/screens/UserApp/Profile/TroGiupPhanHoi5Screen.js
-import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  TouchableOpacity, 
-  ScrollView,
-  TextInput,
-  KeyboardAvoidingView,
-  Platform
-} from 'react-native';
+import React, { useState } from "react";
+import {
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from "react-native";
 
-import UserHeader from '../../../components/UserHeader';
-import { COLORS } from '../../../constants/colors';
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import UserHeader from "../../../components/UserHeader";
+import { COLORS } from "../../../constants/colors";
 
 export default function TroGiupPhanHoi5Screen() {
-  const [feedback, setFeedback] = useState('');
+  const [feedback, setFeedback] = useState("");
+  const insets = useSafeAreaInsets();
 
   return (
     <View style={styles.mainContainer}>
@@ -23,15 +25,21 @@ export default function TroGiupPhanHoi5Screen() {
       <UserHeader title="GỬI PHẢN HỒI" />
 
       {/* Dùng KeyboardAvoidingView để bàn phím không che mất nút Gửi */}
-      <KeyboardAvoidingView 
-        style={{ flex: 1 }} 
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
-        <ScrollView contentContainerStyle={styles.contentScroll} showsVerticalScrollIndicator={false}>
-          
+        <ScrollView
+          contentContainerStyle={[
+            styles.contentScroll,
+            { paddingBottom: Math.max(insets.bottom + 16, 40) },
+          ]}
+          showsVerticalScrollIndicator={false}
+        >
           {/* LỜI CẢM ƠN / HƯỚNG DẪN */}
           <Text style={styles.descriptionText}>
-            Chúng tôi rất trân trọng ý kiến của bạn. Vui lòng chia sẻ bất kỳ phản hồi nào để chúng tôi có thể cải thiện ứng dụng.
+            Chúng tôi rất trân trọng ý kiến của bạn. Vui lòng chia sẻ bất kỳ
+            phản hồi nào để chúng tôi có thể cải thiện ứng dụng.
           </Text>
 
           {/* Ô NHẬP NỘI DUNG LỚN */}
@@ -42,7 +50,7 @@ export default function TroGiupPhanHoi5Screen() {
             multiline={true}
             value={feedback}
             onChangeText={setFeedback}
-            textAlignVertical="top" 
+            textAlignVertical="top"
             onBlur={() => setFeedback(feedback.trim())} // Kỹ thuật fix lỗi mất chữ gợi ý
           />
 
@@ -50,7 +58,6 @@ export default function TroGiupPhanHoi5Screen() {
           <TouchableOpacity style={styles.submitButton} activeOpacity={0.8}>
             <Text style={styles.submitButtonText}>Gửi phản hồi</Text>
           </TouchableOpacity>
-
         </ScrollView>
       </KeyboardAvoidingView>
     </View>
@@ -60,29 +67,28 @@ export default function TroGiupPhanHoi5Screen() {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: COLORS.white, 
+    backgroundColor: COLORS.white,
   },
   contentScroll: {
     paddingHorizontal: 20,
     paddingTop: 30,
-    paddingBottom: 40,
   },
   descriptionText: {
     fontSize: 16,
-    color: '#000000',
+    color: "#000000",
     lineHeight: 24,
-    fontWeight: '500',
+    fontWeight: "500",
     marginBottom: 20,
   },
   textArea: {
     borderWidth: 1,
-    borderColor: '#EAEAEA',
+    borderColor: "#EAEAEA",
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingTop: 16, // Đẩy text bắt đầu từ sát lề trên
     paddingBottom: 16,
     fontSize: 16,
-    color: '#000000',
+    color: "#000000",
     backgroundColor: COLORS.white,
     height: 250, // Cố định chiều cao ô nhập liệu cho to và rộng rãi như thiết kế
     marginBottom: 24,
@@ -92,12 +98,12 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingVertical: 16,
     height: 65,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   submitButtonText: {
     color: COLORS.white,
     fontSize: 18,
-    fontWeight: 'bold',
-  }
+    fontWeight: "bold",
+  },
 });

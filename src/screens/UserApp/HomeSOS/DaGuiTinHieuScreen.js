@@ -1,13 +1,13 @@
 import { useRouter } from "expo-router";
 import React from "react";
 import {
-    Image,
-    ImageBackground,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Image,
+  ImageBackground,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -29,12 +29,7 @@ export default function DaGuiTinHieuScreen() {
       >
         <View style={styles.overlay} />
 
-        <View
-          style={[
-            styles.content,
-            { paddingBottom: Math.max(insets.bottom + 8, 24) },
-          ]}
-        >
+        <View style={[styles.content, { paddingBottom: insets.bottom + 8 }]}>
           <View style={styles.card}>
             <View style={styles.iconWrapper}>
               <Image

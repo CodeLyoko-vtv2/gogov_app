@@ -9,12 +9,14 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import UserTabs from "../../../components/UserTabs";
 import { COLORS } from "../../../constants/colors";
 
 export default function HomeSOSScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
 
   return (
     <View style={styles.mainContainer}>
@@ -50,7 +52,10 @@ export default function HomeSOSScreen() {
 
       {/* NỘI DUNG CHÍNH */}
       <ScrollView
-        contentContainerStyle={styles.contentScroll}
+        contentContainerStyle={[
+          styles.contentScroll,
+          { paddingBottom: Math.max(insets.bottom + 110, 140) },
+        ]}
         showsVerticalScrollIndicator={false}
         bounces={false}
       >
@@ -155,7 +160,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: 40,
     paddingHorizontal: 20,
-    paddingBottom: 140,
   },
   instructionText: {
     fontSize: 16,
