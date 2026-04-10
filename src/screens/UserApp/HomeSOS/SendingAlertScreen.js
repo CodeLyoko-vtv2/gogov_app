@@ -10,6 +10,7 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const TEAM_MARKERS = [
   {
@@ -63,6 +64,7 @@ function TeamMarker({ name, x, y, opacity, source }) {
 export default function SendingAlertScreen() {
   const router = useRouter();
   const isFocused = useIsFocused();
+  const insets = useSafeAreaInsets();
   const [countdown, setCountdown] = useState(3);
 
   useEffect(() => {
@@ -120,7 +122,12 @@ export default function SendingAlertScreen() {
         style={styles.radarGlow}
       />
 
-      <View style={styles.content}>
+      <View
+        style={[
+          styles.content,
+          { paddingBottom: Math.max(insets.bottom + 12, 28) },
+        ]}
+      >
         <View style={styles.headerSection}>
           <Text style={styles.title}>Cuộc gọi khẩn cấp...</Text>
           <Text style={styles.description}>
@@ -189,7 +196,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 74,
     paddingHorizontal: 22,
-    paddingBottom: 72,
   },
   headerSection: {
     alignItems: "center",

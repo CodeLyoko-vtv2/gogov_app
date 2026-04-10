@@ -9,12 +9,14 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const MAP_BACKGROUND_URI =
   "https://www.figma.com/api/mcp/asset/73dc8572-0f3d-4d3d-86c9-5c273f35260f";
 
 export default function DaGuiTinHieuScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
 
   return (
     <View style={styles.container}>
@@ -27,46 +29,53 @@ export default function DaGuiTinHieuScreen() {
       >
         <View style={styles.overlay} />
 
-        <View style={styles.card}>
-          <View style={styles.iconWrapper}>
-            <Image
-              source={require("../../../../assets/icons/sos-icon.png")}
-              style={styles.sosIcon}
-              resizeMode="contain"
-            />
-          </View>
+        <View
+          style={[
+            styles.content,
+            { paddingBottom: Math.max(insets.bottom + 8, 24) },
+          ]}
+        >
+          <View style={styles.card}>
+            <View style={styles.iconWrapper}>
+              <Image
+                source={require("../../../../assets/icons/sos-icon.png")}
+                style={styles.sosIcon}
+                resizeMode="contain"
+              />
+            </View>
 
-          <Text style={styles.title}>ĐÃ GỬI TÍN HIỆU CẦU CỨU</Text>
+            <Text style={styles.title}>ĐÃ GỬI TÍN HIỆU CẦU CỨU</Text>
 
-          <Text style={styles.description}>
-            Tín hiệu SOS và vị trí hiện tại của bạn đã được gửi đến các liên hệ
-            khẩn cấp
-          </Text>
-
-          <View style={styles.divider} />
-
-          <View style={styles.row}>
-            <Text style={styles.rowLabel}>Vị trí của bạn:</Text>
-            <Text style={styles.rowValue}>
-              FPT Complex,{"\n"}
-              Nam Kỳ Khởi Nghĩa
+            <Text style={styles.description}>
+              Tín hiệu SOS và vị trí hiện tại của bạn đã được gửi đến các liên
+              hệ khẩn cấp
             </Text>
+
+            <View style={styles.divider} />
+
+            <View style={styles.row}>
+              <Text style={styles.rowLabel}>Vị trí của bạn:</Text>
+              <Text style={styles.rowValue}>
+                FPT Complex,{"\n"}
+                Nam Kỳ Khởi Nghĩa
+              </Text>
+            </View>
+
+            <View style={styles.divider} />
+
+            <View style={styles.row}>
+              <Text style={styles.rowLabel}>Thông báo đến:</Text>
+              <Text style={styles.notifyValue}>Trung tâm cứu hộ, Ba, Mẹ</Text>
+            </View>
+
+            <TouchableOpacity
+              style={styles.homeButton}
+              activeOpacity={0.85}
+              onPress={() => router.replace("/")}
+            >
+              <Text style={styles.homeButtonText}>Về trang chủ</Text>
+            </TouchableOpacity>
           </View>
-
-          <View style={styles.divider} />
-
-          <View style={styles.row}>
-            <Text style={styles.rowLabel}>Thông báo đến:</Text>
-            <Text style={styles.notifyValue}>Trung tâm cứu hộ, Ba, Mẹ</Text>
-          </View>
-
-          <TouchableOpacity
-            style={styles.homeButton}
-            activeOpacity={0.85}
-            onPress={() => router.replace("/")}
-          >
-            <Text style={styles.homeButtonText}>Về trang chủ</Text>
-          </TouchableOpacity>
         </View>
       </ImageBackground>
     </View>
@@ -80,9 +89,12 @@ const styles = StyleSheet.create({
   },
   mapBackground: {
     flex: 1,
+    backgroundColor: "#111111",
+  },
+  content: {
+    flex: 1,
     justifyContent: "flex-end",
     paddingHorizontal: 22,
-    paddingBottom: 36,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,

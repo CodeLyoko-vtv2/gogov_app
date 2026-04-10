@@ -9,12 +9,14 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const MAP_BACKGROUND_URI =
   "https://www.figma.com/api/mcp/asset/d1e7327b-b977-490d-a6c5-1d3119386f47";
 
 export default function XacNhanHuyScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
 
   return (
     <View style={styles.container}>
@@ -27,7 +29,12 @@ export default function XacNhanHuyScreen() {
       >
         <View style={styles.overlay} />
 
-        <View style={styles.cardWrap}>
+        <View
+          style={[
+            styles.cardWrap,
+            { paddingBottom: Math.max(insets.bottom + 8, 24) },
+          ]}
+        >
           <View style={styles.card}>
             <View style={styles.iconWrapper}>
               <MaterialIcons name="warning-amber" size={42} color="#E86767" />
@@ -77,6 +84,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.5)",
   },
   cardWrap: {
+    flex: 1,
+    justifyContent: "center",
     paddingHorizontal: 22,
     marginTop: 38,
   },
