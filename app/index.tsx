@@ -1,7 +1,8 @@
 // app/index.tsx
 import CaiDatScreen from '../src/screens/UserApp/Profile/CaiDatScreen';
-import VeUngDung2Screen from '../src/screens/UserApp/Profile/VeUngDung2Screen';
+import HomeSOSScreen from '@/src/screens/UserApp/HomeSOS/HomeSOSScreen';  
+
 
 export default function HomeScreen() {
-  return <CaiDatScreen />;
+  return <HomeSOSScreen />;
 }
