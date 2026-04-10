@@ -13,7 +13,8 @@ import { useRouter } from 'expo-router';
 // GỌI CÁC COMPONENT DÙNG CHUNG
 import CustomToggle from '../../../components/CustomToggle';
 import UserHeader from '../../../components/UserHeader';
-import UserArrow from '../../../components/UserArrow'; // Thêm mũi tên dùng chung
+import UserArrow from '../../../components/UserArrow';
+import UserTabs from '../../../components/UserTabs'; 
 import { COLORS } from '../../../constants/colors';
 
 export default function CaiDatScreen() {
@@ -42,8 +43,6 @@ export default function CaiDatScreen() {
       </View>
       <View style={styles.itemRight}>
         {rightText ? <Text style={styles.rightText}>{rightText}</Text> : null}
-        
-        {/* THAY THẾ BẰNG COMPONENT MŨI TÊN CHUẨN */}
         <UserArrow />
       </View>
     </TouchableOpacity>
@@ -66,9 +65,17 @@ export default function CaiDatScreen() {
 
   return (
     <View style={styles.mainContainer}>
-      <UserHeader title="CÀI ĐẶT" />
+      {/* NÚT BACK: Ép về Home bằng replace (chuyển 0s theo layout) */}
+      <UserHeader 
+        title="CÀI ĐẶT" 
+        onBackPress={() => router.replace('/HomeSOS')} 
+      />
 
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <ScrollView 
+        style={styles.container} 
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 130 }}
+      >
         
         <SectionHeader title="TÀI KHOẢN" />
         <View style={styles.card}>
@@ -127,8 +134,10 @@ export default function CaiDatScreen() {
           <Text style={styles.logoutText}>Đăng xuất</Text>
         </TouchableOpacity>
 
-        <View style={{ height: 40 }} />
       </ScrollView>
+
+      {/* HIỂN THỊ TAB BAR */}
+      <UserTabs activeRoute="/CaiDat" />
     </View>
   );
 }
@@ -208,7 +217,6 @@ const styles = StyleSheet.create({
     color: COLORS.gray,
     marginRight: 10,
   },
-  // ĐÃ XÓA style arrowIcon Ở ĐÂY VÌ ĐÃ DÙNG COMPONENT CHUNG
   logoutButton: {
     flexDirection: 'row',
     alignItems: 'center',
