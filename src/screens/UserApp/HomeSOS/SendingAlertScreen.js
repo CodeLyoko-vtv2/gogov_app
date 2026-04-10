@@ -122,12 +122,7 @@ export default function SendingAlertScreen() {
         style={styles.radarGlow}
       />
 
-      <View
-        style={[
-          styles.content,
-          { paddingBottom: Math.max(insets.bottom + 12, 28) },
-        ]}
-      >
+      <View style={[styles.content, { paddingBottom: insets.bottom + 4 }]}>
         <View style={styles.headerSection}>
           <Text style={styles.title}>Cuộc gọi khẩn cấp...</Text>
           <Text style={styles.description}>

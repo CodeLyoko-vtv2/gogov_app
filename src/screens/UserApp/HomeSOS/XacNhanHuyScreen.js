@@ -29,12 +29,7 @@ export default function XacNhanHuyScreen() {
       >
         <View style={styles.overlay} />
 
-        <View
-          style={[
-            styles.cardWrap,
-            { paddingBottom: Math.max(insets.bottom + 8, 24) },
-          ]}
-        >
+        <View style={[styles.cardWrap, { paddingBottom: insets.bottom + 8 }]}>
           <View style={styles.card}>
             <View style={styles.iconWrapper}>
               <MaterialIcons name="warning-amber" size={42} color="#E86767" />
@@ -87,7 +82,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     paddingHorizontal: 22,
-    marginTop: 38,
   },
   card: {
     backgroundColor: "#FFFFFF",
