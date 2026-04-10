@@ -24,6 +24,23 @@ export default function RootLayout() {
 
         {/* Các trang còn lại dùng animation mặc định */}
         <Stack.Screen name="LichSuSOS" />
+        <Stack.Screen name="HatNhan1" />
+        <Stack.Screen
+          name="ChonViTri2"
+          options={{
+            animation: "slide_from_bottom",
+            presentation: "transparentModal",
+            contentStyle: { backgroundColor: "transparent" },
+          }}
+        />
+        <Stack.Screen
+          name="ChonAnh2"
+          options={{
+            animation: "slide_from_bottom",
+            presentation: "transparentModal",
+            contentStyle: { backgroundColor: "transparent" },
+          }}
+        />
         <Stack.Screen
           name="SendingAlert"
           options={{ contentStyle: { backgroundColor: "#FFFFFF" } }}

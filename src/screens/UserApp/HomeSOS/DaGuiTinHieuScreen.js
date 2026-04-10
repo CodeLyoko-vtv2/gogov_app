@@ -1,7 +1,7 @@
-import { useRouter } from "expo-router";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import {
-  Image,
   ImageBackground,
   StatusBar,
   StyleSheet,
@@ -10,20 +10,26 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
-const MAP_BACKGROUND_URI =
-  "https://www.figma.com/api/mcp/asset/73dc8572-0f3d-4d3d-86c9-5c273f35260f";
+import { getSelectedLocationText } from "../../../state/selectedLocation";
 
 export default function DaGuiTinHieuScreen() {
   const router = useRouter();
+  const params = useLocalSearchParams();
   const insets = useSafeAreaInsets();
+  const locationParam = Array.isArray(params.location)
+    ? params.location[0]
+    : params.location;
+  const locationText =
+    (typeof locationParam === "string" && locationParam.trim()) ||
+    getSelectedLocationText() ||
+    "FPT Complex, Nam Kỳ Khởi Nghĩa";
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
 
       <ImageBackground
-        source={{ uri: MAP_BACKGROUND_URI }}
+        source={require("../../../../assets/images/Rectangle 4894.png")}
         resizeMode="cover"
         style={styles.mapBackground}
       >
@@ -32,11 +38,7 @@ export default function DaGuiTinHieuScreen() {
         <View style={[styles.content, { paddingBottom: insets.bottom + 8 }]}>
           <View style={styles.card}>
             <View style={styles.iconWrapper}>
-              <Image
-                source={require("../../../../assets/icons/sos-icon.png")}
-                style={styles.sosIcon}
-                resizeMode="contain"
-              />
+              <MaterialIcons name="warning-amber" size={34} color="#EF6A6A" />
             </View>
 
             <Text style={styles.title}>ĐÃ GỬI TÍN HIỆU CẦU CỨU</Text>
@@ -50,23 +52,20 @@ export default function DaGuiTinHieuScreen() {
 
             <View style={styles.row}>
               <Text style={styles.rowLabel}>Vị trí của bạn:</Text>
-              <Text style={styles.rowValue}>
-                FPT Complex,{"\n"}
-                Nam Kỳ Khởi Nghĩa
-              </Text>
+              <Text style={styles.rowValue}>{locationText}</Text>
             </View>
 
             <View style={styles.divider} />
 
             <View style={styles.row}>
               <Text style={styles.rowLabel}>Thông báo đến:</Text>
-              <Text style={styles.notifyValue}>Trung tâm cứu hộ, Ba, Mẹ</Text>
+              <Text style={styles.notifyValue}>Trung tâm cứu hộ</Text>
             </View>
 
             <TouchableOpacity
               style={styles.homeButton}
               activeOpacity={0.85}
-              onPress={() => router.replace("/")}
+              onPress={() => router.replace("/HomeSOS")}
             >
               <Text style={styles.homeButtonText}>Về trang chủ</Text>
             </TouchableOpacity>
@@ -93,59 +92,55 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.48)",
+    backgroundColor: "rgba(0,0,0,0.32)",
   },
   card: {
     backgroundColor: "#FFFFFF",
-    borderRadius: 20,
-    paddingHorizontal: 22,
-    paddingTop: 28,
-    paddingBottom: 22,
+    borderRadius: 22,
+    paddingHorizontal: 28,
+    paddingTop: 24,
+    paddingBottom: 18,
     alignItems: "center",
   },
   iconWrapper: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-    backgroundColor: "#FAE8E9",
+    width: 74,
+    height: 74,
+    borderRadius: 37,
+    backgroundColor: "#FCEDEE",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 20,
-  },
-  sosIcon: {
-    width: 50,
-    height: 50,
+    marginBottom: 18,
   },
   title: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: "#000000",
+    fontSize: 20,
+    fontWeight: "800",
+    color: "#151515",
     textAlign: "center",
     marginBottom: 14,
-    lineHeight: 24,
+    lineHeight: 28,
   },
   description: {
-    fontSize: 14,
-    lineHeight: 20,
-    color: "rgba(0,0,0,0.5)",
+    fontSize: 15,
+    lineHeight: 22,
+    color: "rgba(0,0,0,0.48)",
     textAlign: "center",
-    width: "92%",
-    marginBottom: 18,
+    width: "97%",
+    marginBottom: 22,
   },
   divider: {
     width: "100%",
     height: 1,
-    backgroundColor: "#E5E5E5",
-    marginBottom: 16,
+    backgroundColor: "#ECECEC",
+    marginBottom: 18,
   },
   row: {
     width: "100%",
     flexDirection: "row",
     alignItems: "flex-start",
-    marginBottom: 16,
+    marginBottom: 18,
   },
   rowLabel: {
-    width: 120,
+    width: 124,
     fontSize: 14,
     color: "#000000",
     lineHeight: 20,
@@ -155,19 +150,19 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
     color: "#000000",
-    fontWeight: "600",
+    fontWeight: "700",
   },
   notifyValue: {
     flex: 1,
     fontSize: 14,
     lineHeight: 20,
     color: "#000000",
-    fontWeight: "600",
+    fontWeight: "700",
   },
   homeButton: {
     width: "100%",
-    height: 45,
-    borderRadius: 10,
+    height: 60,
+    borderRadius: 14,
     backgroundColor: "#EF4444",
     alignItems: "center",
     justifyContent: "center",
@@ -177,5 +172,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "700",
     color: "#FFFFFF",
+    lineHeight: 22,
+  },
+  botButton: {
+    position: "absolute",
+    right: 12,
+    bottom: 86,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: "#F17E7E",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
