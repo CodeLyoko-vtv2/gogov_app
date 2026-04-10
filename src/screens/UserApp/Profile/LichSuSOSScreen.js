@@ -1,77 +1,89 @@
 // src/screens/UserApp/Profile/LichSuSOSScreen.js
-import { useRouter } from 'expo-router';
 import React from 'react';
 import {
   Image,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View
 } from 'react-native';
 
+import UserHeader from '../../../components/UserHeader';
 import { COLORS } from '../../../constants/colors';
 
+// DỮ LIỆU ẢO (MOCK DATA)
+// Sau này bạn có thể bốc mảng này đem qua file src/constants/mockData.js cho gọn
+const MOCK_HISTORY = [
+  {
+    id: '1',
+    dateTitle: '9/4/2026, 17:28',
+    events: [
+      { 
+        id: 'e1', 
+        time: '17:28', 
+        text: '22 Mai Đăng Chơn, cháy', 
+        isEnd: false 
+      },
+      { 
+        id: 'e2', 
+        time: '17:40', 
+        text: 'Đã cứu hộ hoàn thành', 
+        isEnd: true 
+      }
+    ]
+  },
+  // Bạn có thể copy thêm block tương tự ở đây để hiện thêm thẻ Lịch sử thứ 2, thứ 3...
+];
+
 export default function LichSuSOSScreen() {
-  const router = useRouter();
+
+  // Component Thẻ Lịch Sử (Render tự động dựa trên dữ liệu truyền vào)
+  const HistoryCard = ({ data }) => (
+    <View style={styles.card}>
+      <Text style={styles.dateTitle}>{data.dateTitle}</Text>
+      <View style={styles.divider} />
+
+      <View style={styles.timelineContainer}>
+        {data.events.map((event, index) => (
+          <View key={event.id}>
+            <View style={styles.timelineRow}>
+              <Text style={styles.timeText}>{event.time}</Text>
+              
+              <View style={styles.iconColumn}>
+                <Image
+                  source={
+                    event.isEnd 
+                      ? require('../../../../assets/icons/Vector4.png') // Icon mũi tên cho lúc kết thúc
+                      : require('../../../../assets/icons/Vector5.png') // Icon chấm tròn cho lúc bắt đầu
+                  }
+                  style={event.isEnd ? styles.arrowIcon : styles.dotIcon}
+                  resizeMode="contain"
+                />
+                {/* Chỉ vẽ đường kẻ dọc nếu đây chưa phải là sự kiện cuối cùng */}
+                {!event.isEnd && <View style={styles.verticalLine} />}
+              </View>
+              
+              <Text style={styles.eventText}>{event.text}</Text>
+            </View>
+
+            {/* Khoảng trống giữa các sự kiện */}
+            {!event.isEnd && <View style={{ height: 35 }} />}
+          </View>
+        ))}
+      </View>
+    </View>
+  );
 
   return (
     <View style={styles.mainContainer}>
-      <View style={styles.header}>
-        <View style={styles.headerContent}>
-          {/* Đưa onPress lên thẻ TouchableOpacity mới đúng chuẩn */}
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => router.back()} // Dùng .back() để quay về trang cũ
-          >
-            <Image
-              source={require('../../../../assets/icons/Frame 2.png')}
-              style={styles.headerIcon}
-              resizeMode="contain"
-            // Xóa onPress ở đây đi vì Image không hiểu lệnh này
-            />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>LỊCH SỬ SOS</Text>
-          <View style={{ width: 24 }} />
-        </View>
-      </View>
+      <UserHeader title="LỊCH SỬ SOS" />
 
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <View style={styles.card}>
-          <Text style={styles.dateTitle}>9/4/2026, 17:28</Text>
-          <View style={styles.divider} />
-
-          <View style={styles.timelineContainer}>
-
-            <View style={styles.timelineRow}>
-              <Text style={styles.timeText}>17:28</Text>
-              <View style={styles.iconColumn}>
-                <Image
-                  source={require('../../../../assets/icons/Vector5.png')}
-                  style={styles.dotIcon}
-                  resizeMode="contain"
-                />
-                <View style={styles.verticalLine} />
-              </View>
-              <Text style={styles.eventText}>22 Mai Đăng Chơn, cháy</Text>
-            </View>
-
-            <View style={{ height: 35 }} />
-
-            <View style={styles.timelineRow}>
-              <Text style={styles.timeText}>17:40</Text>
-              <View style={styles.iconColumn}>
-                <Image
-                  source={require('../../../../assets/icons/Vector4.png')}
-                  style={styles.arrowIcon}
-                  resizeMode="contain"
-                />
-              </View>
-              <Text style={styles.eventText}>Đã cứu hộ hoàn thành</Text>
-            </View>
-
-          </View>
-        </View>
+        
+        {/* Duyệt qua mảng dữ liệu để in ra tất cả các thẻ lịch sử */}
+        {MOCK_HISTORY.map((item) => (
+          <HistoryCard key={item.id} data={item} />
+        ))}
 
         <View style={{ height: 40 }} />
       </ScrollView>
@@ -84,37 +96,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.white,
   },
-  header: {
-    width: '100%',
-    height: 154,
-    backgroundColor: '#FEFAFB',
-    paddingTop: 77,
-    shadowColor: '#CECECE',
-    shadowOffset: { width: 0, height: 4.56 },
-    shadowOpacity: 0.35,
-    shadowRadius: 5.7,
-    elevation: 5,
-    zIndex: 1,
-  },
-  headerContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-  },
-  backButton: {
-    padding: 5,
-  },
-  headerIcon: {
-    width: 20,
-    height: 20,
-    tintColor: COLORS.primary,
-  },
-  headerTitle: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    color: COLORS.primary,
-  },
   container: {
     flex: 1,
     paddingHorizontal: 20,
@@ -124,6 +105,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     borderRadius: 16,
     padding: 20,
+    marginBottom: 20, // Thêm margin bottom để các thẻ cách nhau ra nếu có nhiều thẻ
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.25,
