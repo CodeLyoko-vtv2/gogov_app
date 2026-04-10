@@ -2,12 +2,12 @@
 import { useRouter } from "expo-router";
 import React from "react";
 import {
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -40,7 +40,10 @@ export default function HomeSOSScreen() {
               </Text>
             </View>
           </View>
-          <TouchableOpacity style={styles.bellButton}>
+          <TouchableOpacity
+            style={styles.bellButton}
+            onPress={() => router.push("/ThongBao2")}
+          >
             <Image
               source={require("../../../../assets/icons/Bell.png")}
               style={styles.bellIcon}
