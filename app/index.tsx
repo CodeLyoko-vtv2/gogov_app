@@ -1,6 +1,6 @@
 // app/index.tsx
-import HomeSOS from "./HomeSOS";
+import PhanLoaiNguoiDung from "./PhanLoaiNguoiDung";
 
 export default function HomeScreen() {
-  return <HomeSOS />;
+  return <PhanLoaiNguoiDung />;
 }
