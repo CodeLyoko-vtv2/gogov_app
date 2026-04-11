@@ -1,10 +1,11 @@
+// src/components/CustomCheckbox.js
 import React from 'react';
-import { TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 
-export default function CustomRadioButton({ 
+export default function CustomCheckbox({ 
   selected, 
   onPress, 
-  size = 24, // Kích thước mặc định
+  size = 24, // Kích thước mặc định là 24x24
   containerStyle 
 }) {
   return (
@@ -20,8 +21,8 @@ export default function CustomRadioButton({
       <Image
         source={
           selected 
-            ? require('../../assets/icons/Group 483724.png') // Tâm chấm đỏ (Đã chọn)
-            : require('../../assets/icons/Ellipse 41.png')   // Viền xám rỗng (Chưa chọn)
+            ? require('../../assets/icons/Frame 3645.png') // Nền xanh, có tick
+            : require('../../assets/icons/Frame 3646.png') // Viền xám, rỗng
         }
         style={styles.icon}
         resizeMode="contain"
