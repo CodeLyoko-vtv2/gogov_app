@@ -8,79 +8,24 @@ export default function RootLayout() {
   const router = useRouter();
   const pathname = usePathname();
 
-  // Kiểm tra xem có đang ở màn hình AI cứu hộ hay không
-  const isAIChatScreen = pathname === "/AICuuHo";
+  // Kiểm tra xem có đang ở màn hình AI cứu hộ hay không (Bao gồm cả khi nằm trong folder user)
+  const isAIChatScreen = pathname === "/AICuuHo" || pathname === "/(user)/AICuuHo";
 
   return (
     <SafeAreaProvider>
       <View style={styles.root}>
         <StatusBar style="dark" />
 
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            animation: "slide_from_right",
-            animationDuration: 300,
-            contentStyle: { backgroundColor: "#FFFFFF" },
-          }}
-        >
-          {/* CÁC TRANG CHÍNH CHUYỂN KHÔNG ANIMATION */}
-          <Stack.Screen name="index" options={{ animation: "none" }} />
-          <Stack.Screen name="HomeSOS" options={{ animation: "none" }} />
-          <Stack.Screen name="CaiDat" options={{ animation: "none" }} />
-          <Stack.Screen name="SOSVoice" options={{ animation: "none" }} />
-          <Stack.Screen name="DanhBa1" options={{ animation: "none" }} />
-          <Stack.Screen name="TinTucTheGioi" options={{ animation: "none" }} />
-
-          {/* DANH BẠ & GỌI ĐIỆN */}
-          <Stack.Screen name="DanhBa2" /> 
-          <Stack.Screen name="DanhBa3" />
-          <Stack.Screen name="DanhBa4" />
-          <Stack.Screen name="AICuuHo" />
-
-          {/* QUYÊN GÓP */}
-          <Stack.Screen name="UngHoTien" />
-          <Stack.Screen name="UngHoGao" />
-          <Stack.Screen name="UngHoVatPham" />
-          <Stack.Screen name="DanhSachQuyenGop" />
-
-          {/* CÁC TRANG KHÁC */}
-          <Stack.Screen name="LichSuSOS" />
-          <Stack.Screen name="HatNhan1" />
-          <Stack.Screen
-            name="ChonViTri2"
-            options={{
-              animation: "slide_from_bottom",
-              presentation: "transparentModal",
-              contentStyle: { backgroundColor: "transparent" },
-            }}
-          />
-          <Stack.Screen
-            name="ChonAnh2"
-            options={{
-              animation: "slide_from_bottom",
-              presentation: "transparentModal",
-              contentStyle: { backgroundColor: "transparent" },
-            }}
-          />
-          <Stack.Screen name="SendingAlert" />
-          <Stack.Screen name="XacNhanHuy" options={{ contentStyle: { backgroundColor: "#111111" } }} />
-          <Stack.Screen name="DaGuiTinHieu" options={{ contentStyle: { backgroundColor: "#111111" } }} />
-          <Stack.Screen name="DaGuiTinHieu3" />
-          <Stack.Screen name="TroGiupPhanHoi1" />
-          <Stack.Screen name="TroGiupPhanHoi2" />
-          <Stack.Screen name="TroGiupPhanHoi4" />
-          <Stack.Screen name="TroGiupPhanHoi5" />
-          <Stack.Screen name="VeUngDung1" />
-          <Stack.Screen name="VeUngDung2" />
+        {/* TRẠM ĐIỀU HƯỚNG GỐC */}
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="index" options={{ animation: "fade" }} />
+          
+          {/* 2 Ngã rẽ khổng lồ: User và Rescue */}
+          <Stack.Screen name="(user)" options={{ animation: "fade" }} />
+          <Stack.Screen name="(rescue)" options={{ animation: "fade" }} />
         </Stack>
 
-        {/* MẸO GIỮ "TRÍ NHỚ" CHO NÚT:
-            Chúng ta không dùng { !isAIChatScreen && <FloatingAIButton /> } 
-            Vì làm vậy sẽ "giết" cái nút mỗi khi vào chat -> mất tọa độ cũ.
-            Dùng Opacity giúp nút vẫn sống âm thầm bên dưới màn chat, 
-            khi thoát chat nó hiện ra ngay lập tức ở đúng chỗ cũ.
-        */}
+        {/* NÚT AI NỔI GIỮ NGUYÊN */}
         <View 
           style={[
             StyleSheet.absoluteFill, 
