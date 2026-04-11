@@ -1,5 +1,5 @@
 import { Stack } from 'expo-router';
-import ThongTinCaNhanScreen from '../src/screens/UserApp/PersonalInfo/ThongTinCaNhanScreen';
+import ThongTinCaNhanScreen from '../../src/screens/UserApp/PersonalInfo/ThongTinCaNhanScreen';
 
 export default function ThongTinCaNhan() {
   return (

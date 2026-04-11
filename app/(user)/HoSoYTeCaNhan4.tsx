@@ -1,5 +1,5 @@
 import { Stack } from 'expo-router';
-import HoSoYTeCaNhan4Screen from '../src/screens/UserApp/MedicalRecord/HoSoYTeCaNhan4Screen';
+import HoSoYTeCaNhan4Screen from '../../src/screens/UserApp/MedicalRecord/HoSoYTeCaNhan4Screen';
 
 export default function HoSoYTeCaNhan4() {
   return (

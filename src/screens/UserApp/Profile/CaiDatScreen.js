@@ -98,6 +98,7 @@ export default function CaiDatScreen() {
           <MenuItem
             iconSource={require("../../../../assets/icons/FAQ Circle.png")}
             title="Thông tin cá nhân"
+            onPress={() => router.push("/ThongTinCaNhan")}
           />
           <MenuItem
             iconSource={require("../../../../assets/icons/hugeicons_transaction-history.png")}
