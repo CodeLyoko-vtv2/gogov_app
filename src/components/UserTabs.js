@@ -45,8 +45,8 @@ export default function UserTabs({ activeRoute, isRecording = false }) {
             <Image source={require('../../assets/icons/Website.png')} style={[styles.tabIcon, isActive('/TinTucTheGioi') && styles.activeIcon]} resizeMode="contain" />
           </TouchableOpacity>
           <View style={styles.centerSpace} />
-          <TouchableOpacity style={styles.tabItem} onPress={() => handleNavigation('/Call')}>
-            <Image source={require('../../assets/icons/Call.png')} style={[styles.tabIcon, isActive('/Call') && styles.activeIcon]} resizeMode="contain" />
+          <TouchableOpacity style={styles.tabItem} onPress={() => handleNavigation('/DanhBa1')}>
+            <Image source={require('../../assets/icons/Call.png')} style={[styles.tabIcon, isActive('/DanhBa1') && styles.activeIcon]} resizeMode="contain" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.tabItem} onPress={() => handleNavigation('/CaiDat')}>
             <Image source={require('../../assets/icons/Setting.png')} style={[styles.tabIcon, isActive('/CaiDat') && styles.activeIcon]} resizeMode="contain" />
