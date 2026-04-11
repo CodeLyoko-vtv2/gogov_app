@@ -3,11 +3,24 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
-export default function RescueHeader({ title, onRightPress, rightIcon = "add" }) {
+export default function RescueHeader({ 
+  title, 
+  onRightPress, 
+  rightIcon = "add",
+  // Thêm 2 thuộc tính mới với giá trị mặc định
+  borderBottomWidth = 0, 
+  borderBottomColor = '#F0F0F0' 
+}) {
   const router = useRouter();
 
   return (
-    <View style={styles.header}>
+    <View style={[
+      styles.header, 
+      { 
+        borderBottomWidth: borderBottomWidth, 
+        borderBottomColor: borderBottomColor 
+      }
+    ]}>
       {/* Nút quay lại mặc định */}
       <TouchableOpacity onPress={() => router.back()} style={styles.headerIcon}>
         <Ionicons name="chevron-back" size={28} color="#000" />
@@ -31,11 +44,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     height: 56,
-    backgroundColor: 'transparent', // Để hòa hợp với SafeAreaView của màn hình
+    backgroundColor: '#FFF', // Đổi sang trắng để thấy rõ đường kẻ nếu có
   },
   headerIcon: {
     padding: 4,
-    minWidth: 40, // Đảm bảo khoảng cách cân bằng hai bên
+    minWidth: 40,
   },
   headerTitle: {
     fontSize: 24,
