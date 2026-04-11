@@ -25,7 +25,7 @@ export default function PhanLoaiNguoiDungScreen() {
     if (selectedRole === 'nguoi_dan') {
       router.push('/HomeSOS');
     } else if (selectedRole === 'chien_doi') {
-      router.push('/HomeRescueTeam');
+      router.push('/(rescue)');
     }
   };
 

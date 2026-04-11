@@ -2,20 +2,20 @@
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // GỌI CÁC COMPONENT DÙNG CHUNG
 import CustomToggle from '../../../components/CustomToggle';
-import UserHeader from '../../../components/UserHeader';
 import UserArrow from '../../../components/UserArrow';
-import UserTabs from '../../../components/UserTabs'; 
+import UserHeader from '../../../components/UserHeader';
+import UserTabs from '../../../components/UserTabs';
 import { COLORS } from '../../../constants/colors';
 
 export default function CaiDatScreen() {
@@ -145,7 +145,7 @@ export default function CaiDatScreen() {
           />
         </View>
 
-        <TouchableOpacity style={styles.logoutButton}>
+        <TouchableOpacity style={styles.logoutButton} onPress={() => router.replace("/PhanLoaiNguoiDung")}>
           <Image
             source={require("../../../../assets/icons/Vector3.png")}
             style={styles.logoutIcon}
