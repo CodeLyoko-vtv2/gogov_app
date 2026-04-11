@@ -11,7 +11,7 @@ export default function RescueTabsLayout() {
     >
       <Tabs.Screen name="index" />
       <Tabs.Screen name="missions" />
-      <Tabs.Screen name="alerts" />
+      <Tabs.Screen name="ThongBao" />
       <Tabs.Screen name="profile" />
     </Tabs>
   );
