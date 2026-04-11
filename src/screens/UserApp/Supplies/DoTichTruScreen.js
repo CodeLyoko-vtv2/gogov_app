@@ -1,19 +1,19 @@
 // src/screens/UserApp/Supplies/DoTichTruScreen.js
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Image
+    Image,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
 } from 'react-native';
-import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // GỌI CÁC THÀNH PHẦN CHUẨN CỦA DỰ ÁN
+import CustomCheckbox from '../../../components/CustomCheckbox';
 import UserHeader from '../../../components/UserHeader';
-import CustomRadioButton from '../../../components/CustomRadioButton';
 import { COLORS } from '../../../constants/colors';
 
 // DỮ LIỆU MẪU BAN ĐẦU
@@ -92,7 +92,7 @@ export default function DoTichTruScreen() {
                 onPress={() => toggleItem(item.id)}
               >
                 {/* Gọi Component CustomRadioButton */}
-                <CustomRadioButton 
+                <CustomCheckbox 
                   selected={item.checked} 
                   onPress={() => toggleItem(item.id)}
                   size={24}

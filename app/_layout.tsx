@@ -11,28 +11,6 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-<<<<<<< HEAD
-      <StatusBar style="dark" />
-
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          // MẶC ĐỊNH: Tất cả sẽ lướt từ phải sang (như LichSuSOS, các trang con...)
-          animation: 'slide_from_right', 
-          contentStyle: { backgroundColor: '#FFFFFF' },
-        }}
-      >
-        {/* DANH SÁCH CÁC TRANG KHÔNG LƯỚT (CHUYỂN 0 GIÂY) */}
-        <Stack.Screen name="index" options={{ animation: 'none' }} />
-        <Stack.Screen name="HomeSOS" options={{ animation: 'none' }} />
-        <Stack.Screen name="Network" options={{ animation: 'none' }} />
-        <Stack.Screen name="Call" options={{ animation: 'none' }} />
-        <Stack.Screen name="CaiDat" options={{ animation: 'none' }} />
-        <Stack.Screen name="SOSVoice" options={{ animation: 'none' }} />
-
-        {/* CÁC TRANG CÒN LẠI (LichSuSOS, TroGiup...) SẼ TỰ ĐỘNG LƯỚT VÌ THEO MẶC ĐỊNH Ở TRÊN */}
-      </Stack>
-=======
       <View style={styles.root}>
         <StatusBar style="dark" />
 
@@ -115,7 +93,6 @@ export default function RootLayout() {
           </Pressable>
         </Modal>
       </View>
->>>>>>> b8b2fd1aa17c67ca9b5efa41882e39539f0d6fa2
     </SafeAreaProvider>
   );
 }
