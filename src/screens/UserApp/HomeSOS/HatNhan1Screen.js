@@ -2,20 +2,20 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
-    DeviceEventEmitter,
-    Image,
-    ScrollView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  DeviceEventEmitter,
+  Image,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
-    getSelectedImageIndexes,
-    setSelectedImageIndexes,
+  getSelectedImageIndexes,
+  setSelectedImageIndexes,
 } from "../../../state/selectedImages";
 import { getSelectedLocationText } from "../../../state/selectedLocation";
 
@@ -196,20 +196,37 @@ export default function HatNhan1Screen() {
               icon={item.icon}
               source={item.source}
               selected={selectedType === item.id}
-              onPress={() => setSelectedType(item.id)}
+              onPress={() => {
+              setSelectedType(item.id);
+
+              if (item.id !== "other") {
+              setOtherReason("");
+          }
+        }}
             />
           ))}
         </View>
 
         {selectedType === "other" ? (
-          <TextInput
-            value={otherReason}
-            onChangeText={setOtherReason}
-            placeholder="Nhập lý do"
-            placeholderTextColor="#A2A2A2"
-            style={styles.reasonInput}
-          />
-        ) : null}
+  <TouchableOpacity
+    activeOpacity={1}
+      hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+
+    onPress={() => {
+      if (!otherReason) {
+        setOtherReason("tai nạn máy bay");
+      }
+    }}
+  >
+    <TextInput
+      value={otherReason}
+      editable={false} // ❌ không cho nhập
+      placeholder="Nhập lý do"
+      placeholderTextColor="#A2A2A2"
+      style={styles.reasonInput}
+    />
+  </TouchableOpacity>
+) : null}
 
         <Text style={styles.sectionTitle}>Vị trí</Text>
         <View style={styles.divider} />

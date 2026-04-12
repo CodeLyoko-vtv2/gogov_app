@@ -117,7 +117,7 @@ export default function ThongTinCaNhanScreen() {
         <View style={[styles.sectionContainer, styles.medicalSection]}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Thông tin y tế</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push('/HoSoYTeCaNhan1')}>
               <Image
                 source={require('../../../../assets/icons/mdi_edit-circle.png')}
                 style={styles.sectionActionIcon}
