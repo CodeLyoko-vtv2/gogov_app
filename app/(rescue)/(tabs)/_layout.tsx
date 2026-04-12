@@ -10,7 +10,7 @@ export default function RescueTabsLayout() {
       screenOptions={{ headerShown: false }}
     >
       <Tabs.Screen name="index" />
-      <Tabs.Screen name="missions" />
+      <Tabs.Screen name="NhiemVuCuaDoi" />
       <Tabs.Screen name="ThongBao" />
       <Tabs.Screen name="profile" />
     </Tabs>
