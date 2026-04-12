@@ -28,7 +28,7 @@ export default function BanDoNhiemVuScreen() {
   const router = useRouter();
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <View style={styles.container} edges={['top']}>
       {/* 1. HEADER CHUẨN */}
       <RescueHeader title="Bản đồ nhiệm vụ" borderBottomWidth={1} />
 
@@ -102,7 +102,7 @@ export default function BanDoNhiemVuScreen() {
         </View>
 
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

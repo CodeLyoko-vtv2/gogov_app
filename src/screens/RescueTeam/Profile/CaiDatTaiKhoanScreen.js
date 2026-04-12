@@ -30,7 +30,7 @@ export default function CaiDatTaiKhoanScreen() {
   const [email, setEmail] = useState('email@gmail.com');
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <View style={styles.container} edges={['top']}>
       {/* 1. HEADER CHUẨN */}
       <RescueHeader 
         title="Cài đặt tài khoản" 
@@ -103,7 +103,7 @@ export default function CaiDatTaiKhoanScreen() {
         </View>
 
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 

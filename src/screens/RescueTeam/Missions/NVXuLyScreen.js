@@ -122,7 +122,7 @@ export default function NVXuLyScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <View style={styles.container} edges={['top']}>
       <RescueHeader
         title="Nhiệm vụ chờ xử lý"
         rightIcon="ellipsis-vertical"
@@ -185,7 +185,7 @@ export default function NVXuLyScreen() {
           </View>
         }
       />
-    </SafeAreaView>
+    </View>
   );
 }
 

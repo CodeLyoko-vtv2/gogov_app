@@ -48,7 +48,7 @@ export default function ThongBaoScreen() {
   ];
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <View style={styles.container} edges={['top']}>
       {/* 1. HEADER CHUẨN */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Thông báo</Text>
@@ -108,7 +108,7 @@ export default function ThongBaoScreen() {
           </TouchableOpacity>
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -121,10 +121,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   header: {
-    height: 60,
+    height: 100,
     justifyContent: 'center',
     alignItems: 'center',
     borderBottomWidth: 1,
+    paddingTop: 40, 
     borderBottomColor: '#F0F0F0',
   },
   headerTitle: {

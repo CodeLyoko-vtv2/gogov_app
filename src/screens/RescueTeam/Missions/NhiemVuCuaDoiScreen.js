@@ -93,7 +93,7 @@ export default function NhiemVuCuaDoiScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <View style={styles.container} edges={['top']}>
       {/* 3. GẮN SỰ KIỆN MỞ MODAL VÀO NÚT "ADD" (+) */}
       <RescueHeader 
         title="Nhiệm vụ" 
@@ -147,7 +147,7 @@ export default function NhiemVuCuaDoiScreen() {
         contentContainerStyle={styles.listPadding}
         showsVerticalScrollIndicator={false}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 

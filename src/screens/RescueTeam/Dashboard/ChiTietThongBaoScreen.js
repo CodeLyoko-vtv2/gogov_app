@@ -35,7 +35,7 @@ export default function ChiTietThongBaoScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <View style={styles.container} edges={['top']}>
       {/* 1. HEADER CÓ NÚT BACK */}
       <RescueHeader 
         title="Chi tiết thông báo" 
@@ -89,7 +89,7 @@ export default function ChiTietThongBaoScreen() {
         </View>
 
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
