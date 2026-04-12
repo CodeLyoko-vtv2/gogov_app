@@ -30,7 +30,7 @@ export default function BanDoNhiemVuScreen() {
   return (
     <View style={styles.container} edges={['top']}>
       {/* 1. HEADER CHUẨN */}
-      <RescueHeader title="Bản đồ nhiệm vụ" borderBottomWidth={1} />
+      <RescueHeader title="Bản đồ nhiệm vụ" />
 
       {/* 2. KHU VỰC BẢN ĐỒ (LỚP NỀN) */}
       <View style={styles.mapProvider}>
@@ -93,7 +93,7 @@ export default function BanDoNhiemVuScreen() {
 
             <View style={styles.cardDivider} />
 
-            <TouchableOpacity style={styles.navButton} activeOpacity={0.8}>
+            <TouchableOpacity style={styles.navButton} activeOpacity={0.8} onPress={() => router.push('/ChiDuong')}>
               <Image source={Vector29} style={styles.turnIcon} />
               <Text style={styles.navButtonText}>Chỉ đường</Text>
             </TouchableOpacity>
@@ -107,8 +107,8 @@ export default function BanDoNhiemVuScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FFF' },
-  mapProvider: { flex: 1, backgroundColor: '#F9F9F9', position: 'relative' },
+  container: { flex: 1, backgroundColor: COLORS.RESCUE_BACKGROUND },
+  mapProvider: { flex: 1, backgroundColor: COLORS.RESCUE_BACKGROUND, position: 'relative' },
 
   // Map Controls (FABs)
   mapControls: {
