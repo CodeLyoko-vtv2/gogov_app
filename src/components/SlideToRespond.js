@@ -86,14 +86,14 @@ const styles = StyleSheet.create({
   track: {
     height: 70,
     borderRadius: 40,
-    backgroundColor: 'rgba(255,255,255,0.4)',
+    backgroundColor: 'rgba(255, 52, 52, 0.4)',
     justifyContent: 'center',
     overflow: 'hidden',
   },
   text: {
     position: 'absolute',
     alignSelf: 'center',
-    fontSize: 15,
+    fontSize: 24,
     fontWeight: '600',
     color: 'rgba(0,0,0,0.7)',
   },
