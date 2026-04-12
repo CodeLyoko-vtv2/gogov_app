@@ -39,7 +39,7 @@ export default function NVXuLyScreen() {
       title: 'Hoả hoạn chung cư',
       location: 'Số 123, đường XYZ, Ngũ Hành Sơn, Đà Nẵng',
       time: '15 phút trước',
-      route: '/BanDoNhiemVu', // Thêm đường dẫn để điều hướng khi chấp nhận
+      route: '',
     },
     {
       id: '2',
@@ -49,6 +49,7 @@ export default function NVXuLyScreen() {
       title: 'Tai nạn giao thông',
       location: 'Ngã tư Nam Kỳ Khởi Nghĩa, Ngũ Hành Sơn, Đà Nẵng',
       time: '5 phút trước',
+      route: '/BanDoNhiemVu', // Thêm đường dẫn để điều hướng khi chấp nhận
     },
     {
       id: '3',
@@ -58,6 +59,7 @@ export default function NVXuLyScreen() {
       title: 'Tai nạn giao thông',
       location: 'Cầu Rồng, Hải Châu, Đà Nẵng',
       time: '15 phút trước',
+      route: '', // 
     },
   ]);
 
@@ -222,7 +224,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.5,
-    shadowRadius: 6,
+    shadowRadius: 4,
     elevation: 5,
   },
   filterText: { fontSize: 16, fontWeight: '700', color: COLORS.RESCUE_ORANGE },
@@ -237,11 +239,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E0E0E0',
     borderLeftWidth: 6,
-    elevation: 4,
+    elevation: 5,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.25,
-    shadowRadius: 6,
+    shadowRadius: 4,
   },
   cardHeader: {
     flexDirection: 'row',
