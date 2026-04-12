@@ -76,7 +76,7 @@ export default function HienTruongScreen() {
 
                 {/* 3. NHÓM NÚT THAO TÁC (ACTION BUTTONS) */}
                 <View style={styles.actionSection}>
-                    <TouchableOpacity style={styles.btnOrange} activeOpacity={0.8}>
+                    <TouchableOpacity style={styles.btnOrange} activeOpacity={0.8} onPress={() => router.push('/BaoCaoTinhHinh')}>
                         <Text style={styles.btnTextWhite}>Báo cáo tình hình</Text>
                     </TouchableOpacity>
 
@@ -92,7 +92,7 @@ export default function HienTruongScreen() {
                     <TouchableOpacity
                         style={styles.btnDark}
                         activeOpacity={0.8}
-                        onPress={() => router.back()}
+                        onPress={() => router.push('/NhiemVuHoanThanh')}
                     >
                         <Text style={styles.btnTextWhite}>Kết thúc nhiệm vụ</Text>
                     </TouchableOpacity>

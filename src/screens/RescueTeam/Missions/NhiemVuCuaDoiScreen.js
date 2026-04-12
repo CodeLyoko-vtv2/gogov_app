@@ -155,7 +155,7 @@ export default function NhiemVuCuaDoiScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: COLORS.RESCUE_BACKGROUND,
     paddingBottom: 50,
   },
   searchSection: {
