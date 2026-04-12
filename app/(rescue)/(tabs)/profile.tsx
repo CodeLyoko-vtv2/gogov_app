@@ -1,6 +1,6 @@
 // app/(rescue)/profile.tsx
-import YeuCauVatTu from "../YeuCauVatTu";
+import CaiDat from "../CaiDat";
 
 export default function ProfileScreen() {
-  return <YeuCauVatTu />;
+  return <CaiDat />;
 }
