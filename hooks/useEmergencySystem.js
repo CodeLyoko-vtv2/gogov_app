@@ -1,29 +1,34 @@
-import { useEffect, useRef } from 'react';
 import { useRouter } from 'expo-router';
+
+// ✅ ĐƯA BIẾN NÀY RA NGOÀI HOOK: Nó trở thành biến dùng chung cho toàn App
+let globalTimerId = null; 
 
 export const useEmergencySystem = () => {
   const router = useRouter();
-  const timerRef = useRef(null);
 
-  // Hàm "Bật công tắc" - Kích hoạt đếm ngược ngẫu nhiên
   const activateEmergencyClock = () => {
-    // Xóa timer cũ nếu đang có cái nào chạy ngầm
-    if (timerRef.current) clearTimeout(timerRef.current);
+    // 1. Xóa timer cũ (Lúc này nó sẽ xóa đúng cái đang chạy dù sếp ở bất kỳ đâu)
+    if (globalTimerId) {
+      clearTimeout(globalTimerId);
+      console.log("[Hệ thống] Đã hủy báo động cũ đang chạy ngầm.");
+    }
 
-    const randomTime = Math.floor(Math.random() * 50000) + 1000; // 1-30 giây
-    console.log(`[Hệ thống] Công tắc đã bật! Báo động sau: ${randomTime / 1000}s`);
+    const randomTime = Math.floor(Math.random() * 50000) + 1000;
+    console.log(`[Hệ thống] Công tắc ON! Báo động sau: ${randomTime / 1000}s`);
 
-    timerRef.current = setTimeout(() => {
+    // 2. Gán ID vào biến toàn cục
+    globalTimerId = setTimeout(() => {
       console.log("[Hệ thống] ĐÃ ĐẾN GIỜ TÁC CHIẾN!");
-      router.push('/BaoDongNhiemVu'); // Hoặc path sếp đặt
+      globalTimerId = null; // Reset sau khi chạy xong
+      router.push('/BaoDongNhiemVu');
     }, randomTime);
   };
 
-  // Hàm "Tắt công tắc" - Dùng khi cần dừng báo động khẩn cấp
   const deactivateEmergencyClock = () => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      console.log("[Hệ thống] Đã ngắt kết nối báo động.");
+    if (globalTimerId) {
+      clearTimeout(globalTimerId);
+      globalTimerId = null;
+      console.log("[Hệ thống] Đã ngắt kết nối báo động toàn cục.");
     }
   };
 
