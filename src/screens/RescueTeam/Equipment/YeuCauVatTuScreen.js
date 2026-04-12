@@ -64,7 +64,7 @@ export default function YeuCauVatTuScreen() {
 
   // --- GIAO DIỆN CHÍNH ---
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <View style={styles.container} edges={['top']}>
       <KeyboardAvoidingView
         style={styles.flex1}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -170,7 +170,7 @@ export default function YeuCauVatTuScreen() {
 
         </ScrollView>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
   );
 }
 
