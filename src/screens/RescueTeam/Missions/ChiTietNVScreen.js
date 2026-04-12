@@ -23,7 +23,7 @@ export default function ChiTietNVScreen() {
   const router = useRouter();
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <View style={styles.container} edges={['top']}>
       {/* 1. HEADER CHUẨN FIGMA */}
       <RescueHeader 
         title="MB-11523" 
@@ -80,7 +80,7 @@ export default function ChiTietNVScreen() {
         </View>
 
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 

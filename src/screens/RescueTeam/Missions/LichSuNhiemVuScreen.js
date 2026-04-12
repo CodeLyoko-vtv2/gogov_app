@@ -106,7 +106,7 @@ export default function LichSuNhiemVuScreen() {
     );
 
     return (
-        <SafeAreaView style={styles.container} edges={['top']}>
+        <View style={styles.container} edges={['top']}>
             <RescueHeader title="Lịch sử nhiệm vụ" onBackPress={() => router.back()} />
 
             {/* 1. THANH TÌM KIẾM */}
@@ -150,7 +150,7 @@ export default function LichSuNhiemVuScreen() {
                 contentContainerStyle={styles.listContainer}
                 showsVerticalScrollIndicator={false}
             />
-        </SafeAreaView>
+        </View>
     );
 }
 

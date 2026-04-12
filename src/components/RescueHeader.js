@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { COLORS } from '@/src/constants/colors';
 
 export default function RescueHeader({ 
   title, 
@@ -43,8 +44,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    height: 56,
-    backgroundColor: '#FFF', // Đổi sang trắng để thấy rõ đường kẻ nếu có
+    height: 100,
+    paddingTop: 40, // Tăng khoảng cách trên để cân đối với chiều cao mới
+    backgroundColor: COLORS.RESCUE_BACKGROUND, // Đổi sang trắng để thấy rõ đường kẻ nếu có
   },
   headerIcon: {
     padding: 4,

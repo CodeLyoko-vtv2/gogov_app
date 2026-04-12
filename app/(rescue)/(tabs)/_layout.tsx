@@ -12,7 +12,7 @@ export default function RescueTabsLayout() {
       <Tabs.Screen name="index" />
       <Tabs.Screen name="NhiemVuCuaDoi" />
       <Tabs.Screen name="ThongBao" />
-      <Tabs.Screen name="profile" />
+      <Tabs.Screen name="ThongTinDoi" />
     </Tabs>
   );
 }

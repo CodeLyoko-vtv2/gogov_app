@@ -33,7 +33,7 @@ export default function SettingsScreen() {
   ];
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <View style={styles.container} edges={['top']}>
       {/* 1. HEADER CHUẨN */}
       <RescueHeader 
         title="Cài đặt" 
@@ -66,7 +66,7 @@ export default function SettingsScreen() {
         </View>
 
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
