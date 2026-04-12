@@ -13,8 +13,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { COLORS } from '@/src/constants/colors';
 
-// Assets
 const MAP_ALERT = require('../../../../assets/images/map-alert.png');
+const { height } = Dimensions.get('window');
 
 export default function BaoDongScreen() {
   const router = useRouter();
@@ -23,7 +23,6 @@ export default function BaoDongScreen() {
   // ✅ TRIỆU HỒI CÔNG TẮC BÁO ĐỘNG
   const { activateEmergencyClock } = useEmergencySystem();
 
-  // --- LOGIC TIMER (Đã dọn dẹp gọn gàng) ---
   useEffect(() => {
     const interval = setInterval(() => {
       setSeconds((prev) => (prev >= 59 ? 0 : prev + 1));
@@ -35,7 +34,9 @@ export default function BaoDongScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* KHỐI TRÊN: HEADER & MAP */}
+      {/* --- CẤU TRÚC 3 KHỐI CHÍNH ĐỂ CHIA KHÔNG GIAN --- */}
+      
+      {/* 1. KHỐI TRÊN (HEADER & MAP) */}
       <View style={styles.topSection}>
         <View style={styles.header}>
           <Ionicons name="warning" size={32} color="#E04140" />
@@ -47,19 +48,19 @@ export default function BaoDongScreen() {
         </View>
       </View>
 
-      {/* KHỐI GIỮA: INFO & TIMER */}
+      {/* 2. KHỐI GIỮA (INFO & TIMER) */}
       <View style={styles.middleSection}>
         <View style={styles.infoBox}>
           <View style={styles.titleRow}>
-            <Ionicons name="airplane" size={28} color="#2C3E50" />
+            <Ionicons name="airplane" size={26} color="#2C3E50" />
             <Text style={styles.missionTitle}>Tai nạn máy bay</Text>
           </View>
           <Text style={styles.descText}>Cách 2.5 km - 5 phút di chuyển</Text>
           <Text style={styles.descText}>Ước tính 300 nạn nhân.</Text>
-          <Text style={styles.descText}>Địa chỉ: 470 Trần Đại Nghĩa, Ngũ Hành Sơn, Đà Nẵng</Text>
+          <Text style={styles.descText}>Địa chỉ: 470 Trần Đại Nghĩa, Đà Nẵng</Text>
         </View>
 
-        <View style={styles.timerSection}>
+        <View style={styles.timerContainer}>
           <Text style={styles.timerHeader}>Thời gian phản hồi</Text>
           <View style={styles.timerGrid}>
             <View style={styles.timerUnit}>
@@ -78,20 +79,26 @@ export default function BaoDongScreen() {
         </View>
       </View>
 
-      {/* KHỐI DƯỚI: ACTIONS (Nút bấm) */}
+      {/* 3. KHỐI DƯỚI (ACTIONS) */}
       <View style={styles.bottomSection}>
-        <TouchableOpacity 
-          style={styles.btnPrimary} 
-          activeOpacity={0.8}
-          onPress={() => router.replace('/KichHoatTrangBi')}
-        >
-          <View style={styles.btnContent}>
-            <View style={styles.iconCircle}>
-              <Ionicons name="checkmark" size={18} color="#FFF" />
-            </View>
-            <Text style={styles.btnText}>Nhận nhiệm vụ</Text>
-          </View>
-        </TouchableOpacity>
+        <View style={styles.topActions}>
+          <TouchableOpacity 
+            style={styles.btnRoute} 
+            activeOpacity={0.8}
+            onPress={() => router.push('/ChiDuong')}
+          >
+            <Ionicons name="checkmark-circle" size={24} color="#FFF" />
+            <Text style={styles.btnText}>Chỉ đường</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={styles.btnCall} 
+            activeOpacity={0.8}
+            onPress={() => router.push('/SDT')}
+          >
+            <Ionicons name="call" size={24} color="#FFF" />
+          </TouchableOpacity>
+        </View>
 
         <TouchableOpacity 
           style={styles.btnCancel} 
@@ -101,12 +108,10 @@ export default function BaoDongScreen() {
             activateEmergencyClock();
           }}
         >
-          <View style={styles.btnContent}>
-            <View style={styles.iconCircle}>
-              <Ionicons name="close" size={16} color="#FFF" />
-            </View>
-            <Text style={styles.btnText}>Huỷ</Text>
+          <View style={styles.cancelIconCircle}>
+            <Ionicons name="close" size={16} color="#FFF" />
           </View>
+          <Text style={styles.btnText}>Huỷ</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -116,8 +121,9 @@ export default function BaoDongScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.RESCUE_BACKGROUND,
+    backgroundColor: COLORS.RESCUE_BACKGROUND, // #F8FAFC
   },
+  // Khối 1: Header + Map chiếm khoảng 35% chiều cao
   topSection: {
     flex: 3.5,
     alignItems: 'center',
@@ -126,7 +132,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 3,
+    gap: 10,
     marginBottom: 20,
   },
   headerText: {
@@ -137,18 +143,18 @@ const styles = StyleSheet.create({
   },
   mapWrapper: {
     width: '90%',
-    height: '65%',
+    height: '60%', // Tự co giãn theo khối
     borderRadius: 20,
     overflow: 'hidden',
-    // ✅ ĐỔ BÓNG 25% CHUẨN SẾP
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.25, // ✅ BÓNG 25% CHUẨN SẾP
     shadowRadius: 4,
     elevation: 5,
   },
   mapImage: { width: '100%', height: '100%' },
 
+  // Khối 2: Info + Timer chiếm khoảng 40% chiều cao
   middleSection: {
     flex: 4,
     justifyContent: 'center',
@@ -162,7 +168,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    marginBottom: 8,
+    marginBottom: 10,
   },
   missionTitle: {
     fontSize: 28,
@@ -173,12 +179,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
     fontWeight: '600',
+    lineHeight: 22,
     textAlign: 'center',
-    marginBottom: 4,
   },
-  timerSection: {
+  timerContainer: {
     alignItems: 'center',
-    marginTop: 10,
   },
   timerHeader: {
     fontSize: 20,
@@ -197,16 +202,16 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
-    // ✅ ĐỔ BÓNG 25%
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.25, // ✅ BÓNG 25%
     shadowRadius: 4,
     elevation: 4,
   },
-  timerNum: { fontSize: 24, fontWeight: '800', color: '#E04140' },
+  timerNum: { fontSize: 22, fontWeight: '800', color: '#E04140' },
   timerLabel: { marginTop: 8, fontSize: 14, fontWeight: '700', color: '#666' },
 
+  // Khối 3: Nút bấm nằm sát đáy (25% chiều cao)
   bottomSection: {
     flex: 2.5,
     width: '90%',
@@ -214,9 +219,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 12,
   },
-  btnPrimary: {
-    height: 60,
+  topActions: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  btnRoute: {
+    flex: 1,
+    height: 55,
     backgroundColor: '#16A34A',
+    borderRadius: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  btnCall: {
+    width: 55,
+    height: 55,
+    backgroundColor: COLORS.RESCUE_ORANGE,
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
@@ -225,26 +245,19 @@ const styles = StyleSheet.create({
     height: 55,
     backgroundColor: '#374151',
     borderRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  btnContent: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
   },
-  btnText: {
-    color: '#FFF',
-    fontSize: 20,
-    fontWeight: '800',
-  },
-  iconCircle: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
+  cancelIconCircle: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
     borderWidth: 2,
     borderColor: '#FFF',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 10,
   },
+  btnText: { color: '#FFF', fontSize: 20, fontWeight: '800' },
 });

@@ -1,8 +1,7 @@
 // app/(rescue)/index.tsx
-import YeuCauVatTu from "../YeuCauVatTu";
-import NVXuLy from  "../NVXuLy";
-import SDT from "../SDT";
+import Home1 from "../Home1";
+import BaoDongNhiemVu from "../BaoDongNhiemVu";
 
 export default function HomeScreen() {
-  return <SDT />;
+  return <Home1 />;
 }

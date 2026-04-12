@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import { useEmergencySystem } from '@/hooks/useEmergencySystem';
 
 // --- ASSETS ---
 const ShieldIcon = require('../../../../assets/icons/Vector20.png'); 
@@ -18,6 +19,9 @@ const { width, height } = Dimensions.get('window');
 
 export default function NhiemVuHoanThanhScreen() {
   const router = useRouter();
+
+  // ✅ TRIỆU HỒI CÔNG TẮC BÁO ĐỘNG
+  const { activateEmergencyClock } = useEmergencySystem();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -54,7 +58,10 @@ export default function NhiemVuHoanThanhScreen() {
       <TouchableOpacity 
         style={styles.homeLink} 
         activeOpacity={0.7}
-        onPress={() => router.replace('/home')}
+        onPress={() => {
+          router.replace('/');
+          activateEmergencyClock();
+        }}
       >
         <Text style={styles.homeLinkText}>Về trang chủ</Text>
       </TouchableOpacity>

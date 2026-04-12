@@ -1,334 +1,222 @@
-import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router';
 import React from 'react';
 import {
-    Dimensions,
-    Image,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    View
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Dimensions,
 } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import SlideToRespond from '../../../components/SlideToRespond';
 
 const { width } = Dimensions.get('window');
 
+// Assets
 const GO_PINK = require('../../../../assets/icons/go-pink.png');
 const GO_YELLOW = require('../../../../assets/icons/go-yellow.png');
 const GO_BLUE = require('../../../../assets/icons/go-blue.png');
 const GO_GREEN = require('../../../../assets/icons/go-green.png');
 
-
 export default function BaoDongNhiemVuScreen() {
   const router = useRouter();
-  const radarSize = Math.min(width * 0.54, 220);
+
+  // Hàm xử lý phản hồi nhiệm vụ
+  const handleResponse = () => {
+    // ✅ "Đẩy chính nó ra khỏi stack": Dùng replace để không thể Back lại màn này
+    router.replace('/ThongBaoAlert'); 
+  };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <LinearGradient
-        colors={['#FFF5CE', '#FFD66A', '#FFAF41']}
-        start={{ x: 0.15, y: 0 }}
-        end={{ x: 0.9, y: 1 }}
-        style={styles.background}
-      >
-        <View style={styles.glowLarge} />
-        <View style={styles.glowSmall} />
+    <View style={styles.container}>
+      {/* 1. HIỆU ỨNG NỀN TỎA SÁNG */}
+      <View style={styles.backgroundGlowContainer}>
+        <LinearGradient
+          colors={['rgba(255, 138, 101, 0.4)', 'rgba(255, 255, 255, 0)']}
+          style={styles.radialGlow}
+        />
+      </View>
 
-    
-
-        <View style={styles.content}>
-          <Text style={styles.alertTitle}>BAO DONG KHAN CAP!</Text>
+      <View style={styles.contentWrapper}>
+        
+        {/* TIÊU ĐỀ & MÔ TẢ */}
+        <View style={styles.headerArea}>
+          <Text style={styles.alertTitle}>BÁO ĐỘNG KHẨN CẤP!</Text>
           <Text style={styles.alertDescription}>
-            Tat ca linh cuu ho lap tuc tap hop tai diem chi dinh, kiem tra day du
-            trang thiet bi va san sang nhan lenh trien khai ngay lap tuc.
+            Tất cả lính cứu hộ lập tức tập hợp tại điểm chỉ định, kiểm tra đầy đủ
+            trang thiết bị và sẵn sàng nhận lệnh triển khai ngay lập tức.
           </Text>
+        </View>
 
-          <View style={styles.radarWrap}>
-            <View style={[styles.ring, styles.ringOuter]} />
-            <View style={[styles.ring, styles.ringMid]} />
-            <View style={[styles.ring, styles.ringInner]} />
-            <View style={[styles.ring, styles.ringCore]} />
+        {/* KHU VỰC RADAR */}
+        <View style={styles.radarWrapper}>
+          <View style={[styles.ring, { width: width * 0.8, height: width * 0.8 }]} />
+          <View style={[styles.ring, { width: width * 0.6, height: width * 0.6 }]} />
+          <View style={[styles.ring, { width: width * 0.4, height: width * 0.4 }]} />
 
-            {TEAMS.map((team) => (
-              <View key={team.name} style={[styles.teamBadge, team.style]}>
-                <Image source={team.icon} style={styles.teamAvatar} />
-                <Text style={styles.teamName}>{team.name}</Text>
-              </View>
-            ))}
+          {/* Chiến đội Badges */}
+          <View style={[styles.teamBadge, styles.goBlue]}>
+            <Image source={GO_BLUE} style={styles.teamAvatar} />
+            <Text style={styles.teamName}>GoBlue</Text>
+          </View>
+          <View style={[styles.teamBadge, styles.goYellow]}>
+            <Image source={GO_YELLOW} style={styles.teamAvatar} />
+            <Text style={styles.teamName}>GoYellow</Text>
+          </View>
+          <View style={[styles.teamBadge, styles.goPink]}>
+            <Image source={GO_PINK} style={styles.teamAvatar} />
+            <Text style={styles.teamName}>GoPink</Text>
+          </View>
+          <View style={[styles.teamBadge, styles.goGreen]}>
+            <Image source={GO_GREEN} style={styles.teamAvatar} />
+            <Text style={styles.teamName}>GoGreen</Text>
+          </View>
 
-            <View
-  style={[
-    styles.heroCard,
-    { width: radarSize, height: radarSize, borderRadius: radarSize / 2 },
-  ]}
->
-  <LinearGradient
-    colors={['#FF8A65', '#FF5252']}
-    start={{ x: 0.2, y: 0 }}
-    end={{ x: 1, y: 1 }}
-    style={styles.heroGradient}
-  >
-    <View style={styles.innerCircle}>
-      <Text style={styles.heroText}>Nhiệm vụ mới</Text>
-    </View>
-  </LinearGradient>
-</View>
+          {/* NÚT TRUNG TÂM */}
+          <View style={styles.centralButtonWrapper}>
+            <LinearGradient
+              colors={['#FF8A65', '#FF5252']}
+              style={styles.centralButton}
+            >
+              <Text style={styles.heroText}>Nhiệm vụ mới</Text>
+            </LinearGradient>
+            <View style={styles.whiteGlowRing} />
           </View>
         </View>
 
-        <View style={styles.bottomArea}>
-<SlideToRespond onSlideComplete={() => router.push('/ThongBaoAlert')} />
-          
+        {/* 3. NÚT TRƯỢT PHẢN HỒI (Nổi bật hơn) */}
+        <View style={styles.footerArea}>
+          <SlideToRespond 
+            onSlideComplete={handleResponse}
+            // Gợi ý truyền thêm props để chữ to và rực hơn
+            title="TRƯỢT ĐỂ PHẢN HỒI"
+            titleStyle={styles.sliderTextOverride} 
+          />
         </View>
-      </LinearGradient>
-    </SafeAreaView>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
+  container: {
     flex: 1,
-    backgroundColor: '#FFD66A',
+    backgroundColor: '#FFFFFF',
   },
-  background: {
-    flex: 1,
-    position: 'relative',
-  },
-  glowLarge: {
-    position: 'absolute',
-    top: 100,
-    right: -90,
-    width: 260,
-    height: 260,
-    borderRadius: 130,
-    backgroundColor: 'rgba(255, 243, 197, 0.45)',
-  },
-  glowSmall: {
-    position: 'absolute',
-    top: 170,
-    left: -100,
-    width: 220,
-    height: 220,
-    borderRadius: 110,
-    backgroundColor: 'rgba(255, 255, 255, 0.16)',
-  },
-  innerCircle: {
-  width: '75%',
-  height: '75%',
-  borderRadius: 999,
-  backgroundColor: 'rgba(255,255,255,0.2)',
-  alignItems: 'center',
-  justifyContent: 'center',
-},
-ring: {
-  position: 'absolute',
-  borderRadius: 999,
-  borderStyle: 'dashed',
-  borderColor: 'rgba(255,255,255,0.6)',
-},
-
-heroText: {
-  fontSize: 20,
-  fontWeight: '800',
-  color: '#fff',
-},alertTitle: {
-  fontSize: 26,
-  fontWeight: '900',
-  color: '#2F3A4A',
-  textAlign: 'center',
-  letterSpacing: 1,
-},alertDescription: {
-  marginTop: 16,
-  maxWidth: 320,
-  fontSize: 15,
-  lineHeight: 24,
-  textAlign: 'center',
-  color: '#2F3A4A',
-  opacity: 0.85,
-},headerTitle: {
-  fontSize: 20,
-  fontWeight: '700',
-  color: '#2F3A4A',
-},
-  header: {
-    height: 56,
-    paddingHorizontal: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  headerButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    alignItems: 'center',
+  backgroundGlowContainer: {
+    ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',
-    backgroundColor: 'rgba(255,255,255,0.2)',
-  },
-  headerButtonPlaceholder: {
-    width: 36,
-  },
-  headerButtonIcon: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#313A51',
-    marginTop: -1,
-  },
-  content: {
-  flex: 1,
-  alignItems: 'center',
-  justifyContent: 'space-between', // 👈 quan trọng
-  paddingHorizontal: 24,
-  paddingTop: 40,
-  paddingBottom: 20,
-},
-
-  radarWrap: {
-    flex: 1,
-    width: '100%',
-    maxWidth: 360,
     alignItems: 'center',
+  },
+  radialGlow: {
+    width: width * 1.5,
+    height: width * 1.5,
+    borderRadius: (width * 1.5) / 2,
+  },
+  contentWrapper: {
+    flex: 1,
+    paddingHorizontal: 25,
+    paddingTop: 60,
+    paddingBottom: 40, // Tăng padding bottom để tạo không gian cho thanh trượt
+  },
+  headerArea: {
+    alignItems: 'center',
+  },
+  alertTitle: {
+    fontSize: 34, // Tăng nhẹ size
+    fontWeight: '900',
+    color: '#2F3A4A',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  alertDescription: {
+    fontSize: 16,
+    lineHeight: 24,
+    textAlign: 'center',
+    color: '#2F3A4A',
+    fontWeight: '700', // Đậm hơn để dễ đọc lệnh
+  },
+  radarWrapper: {
+    flex: 1,
     justifyContent: 'center',
-    position: 'relative',
+    alignItems: 'center',
   },
   ring: {
     position: 'absolute',
     borderRadius: 999,
+    borderWidth: 1.5, // Nét rõ hơn
+    borderColor: 'rgba(0,0,0,0.12)',
     borderStyle: 'dashed',
   },
-  ringOuter: {
-    width: 330,
-    height: 330,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.42)',
+  centralButtonWrapper: {
+    width: 180,
+    height: 180,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  ringMid: {
-    width: 286,
-    height: 286,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.56)',
+  whiteGlowRing: {
+    position: 'absolute',
+    width: 210,
+    height: 210,
+    borderRadius: 105,
+    borderWidth: 15,
+    borderColor: 'rgba(255,255,255,0.7)',
   },
-  ringInner: {
-    width: 242,
-    height: 242,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.74)',
-  },
-  ringCore: {
-    width: 200,
-    height: 200,
-    borderWidth: 1.2,
-    borderColor: '#FFFFFF',
-  },
-  heroCard: {
-    overflow: 'hidden',
-    shadowColor: '#A17713',
-    shadowOffset: { width: 0, height: 14 },
-    shadowOpacity: 0.22,
-    shadowRadius: 22,
+  centralButton: {
+    width: 175,
+    height: 175,
+    borderRadius: 87.5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#FF5252',
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.35, // Tăng độ rực shadow
+    shadowRadius: 20,
     elevation: 12,
   },
-  heroGradient: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 18,
-  },
-  heroImageShell: {
-    width: '78%',
-    aspectRatio: 1,
-    borderRadius: 999,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(255,255,255,0.18)',
-  },
-  heroImage: {
-    width: '78%',
-    height: '78%',
-  },
   heroText: {
-    marginTop: 10,
-    fontSize: 22,
-    fontWeight: '800',
+    fontSize: 24,
+    fontWeight: '900',
     color: '#FFFFFF',
     textAlign: 'center',
+    textTransform: 'uppercase', // Chữ hoa cho quyền lực
   },
   teamBadge: {
     position: 'absolute',
     alignItems: 'center',
   },
   teamAvatar: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
+    width: 52, // Avatar to hơn tí
+    height: 52,
+    borderRadius: 26,
+    borderWidth: 2.5,
+    borderColor: '#FFF',
   },
   teamName: {
-    marginTop: 4,
-    fontSize: 11,
-    fontWeight: '700',
-    color: '#313A51',
-  },
-  goBlue: {
-    left: 8,
-    top: 110,
-  },
-  goYellow: {
-    right: 6,
-    top: 108,
-  },
-  goPink: {
-    right: 28,
-    bottom: 88,
-  },
-  goGreen: {
-    left: 22,
-    bottom: 70,
-  },
-  bottomArea: {
-    paddingHorizontal: 24,
-    paddingBottom: 18,
-  },
-  swipeTrack: {
-    height: 74,
-    borderRadius: 37,
-    borderWidth: 1,
-    borderColor: 'rgba(49,58,81,0.4)',
-    backgroundColor: 'rgba(255,255,255,0.28)',
-    justifyContent: 'center',
-    paddingHorizontal: 18,
-  },
-  swipeThumb: {
-    position: 'absolute',
-    left: 7,
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
-    shadowColor: '#7A5B15',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.18,
-    shadowRadius: 12,
-    elevation: 6,
-  },
-  swipeArrow: {
-    fontSize: 20,
+    marginTop: 5,
+    fontSize: 12,
     fontWeight: '900',
-    color: '#313A51',
-    letterSpacing: 1,
+    color: '#2F3A4A',
   },
-  swipeText: {
-    alignSelf: 'center',
-    fontSize: 16,
-    fontWeight: '700',
-    color: 'rgba(0,0,0,0.7)',
+  // Tọa độ tác chiến giữ nguyên
+  goBlue: { top: '22%', left: '5%' },
+  goYellow: { top: '22%', right: '5%' },
+  goPink: { bottom: '28%', right: '10%' },
+  goGreen: { bottom: '22%', left: '15%' },
+  
+  footerArea: {
+    width: '100%',
+    paddingVertical: 10,
+    // Đổ bóng cho cả vùng trượt để nó nổi bật khỏi nền
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5,
   },
-})
-const TEAMS = [
-  { name: 'GoBlue', icon: GO_BLUE, style: styles.goBlue },
-  { name: 'GoYellow', icon: GO_YELLOW, style: styles.goYellow },
-  { name: 'GoPink', icon: GO_PINK, style: styles.goPink },
-  { name: 'GoGreen', icon: GO_GREEN, style: styles.goGreen },
-];
-;
+  sliderTextOverride: {
+    fontSize: 48, // Chữ to hơn
+    fontWeight: '800', // Đậm hơn
+    letterSpacing: 1.5, // Khoảng cách chữ thưa cho sang
+  }
+});

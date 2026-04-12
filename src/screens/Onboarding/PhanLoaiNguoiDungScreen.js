@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useEmergencySystem } from '@/hooks/useEmergencySystem';
 
 // Giả định bạn đã có file định nghĩa màu sắc chung
 import { COLORS } from '../../constants/colors';
@@ -20,12 +21,16 @@ export default function PhanLoaiNguoiDungScreen() {
   // STATE: Lưu trữ vai trò đang được chọn. Mặc định chọn 'nguoi_dan'
   const [selectedRole, setSelectedRole] = useState('nguoi_dan');
 
+  // ✅ TRIỆU HỒI CÔNG TẮC BÁO ĐỘNG
+  const { activateEmergencyClock } = useEmergencySystem();
+
   const handleContinue = () => {
     console.log("Vai trò được chọn:", selectedRole);
     if (selectedRole === 'nguoi_dan') {
       router.push('/HomeSOS');
     } else if (selectedRole === 'chien_doi') {
       router.push('/(rescue)');
+      activateEmergencyClock();
     }
   };
 

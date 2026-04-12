@@ -13,6 +13,8 @@ import { useRouter } from 'expo-router';
 
 // Import Header dùng chung
 import RescueHeader from '../../../components/RescueHeader';
+import { Background } from '@react-navigation/elements';
+import { COLORS } from '@/src/constants/colors';
 
 // Import dàn "vũ khí" sếp gửi
 const MapBackground = require('../../../../assets/images/Rectangle 4906.png');
@@ -90,7 +92,7 @@ export default function ChiTietNVScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: COLORS.RESCUE_BACKGROUND,
   },
   scrollContent: {
     paddingHorizontal: 20,

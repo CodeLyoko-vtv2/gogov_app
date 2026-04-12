@@ -14,6 +14,7 @@ import { useRouter } from 'expo-router';
 
 // Import Header dùng chung
 import RescueHeader from '../../../components/RescueHeader';
+import { COLORS } from '@/src/constants/colors';
 
 // Import dàn icon sếp vừa gửi
 const AccountIcon = require('../../../../assets/icons/FAQ Circle.png'); // Icon người
@@ -76,7 +77,7 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF', // Nền trắng sạch sẽ
+    backgroundColor: COLORS.RESCUE_BACKGROUND, // Nền trắng sạch sẽ
   },
   scrollContent: {
     paddingHorizontal: 20,
