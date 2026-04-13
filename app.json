@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "gogov_app",
+    "name": "GOGOV App",
     "slug": "gogov_app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -25,6 +25,11 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "backgroundColor": "#ffffff"
+    },
+
     "plugins": [
       "expo-router",
       [
@@ -33,7 +38,7 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "#000000",
           "dark": {
             "backgroundColor": "#000000"
           }

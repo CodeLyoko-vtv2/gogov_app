@@ -10,13 +10,14 @@ import {
   Platform,
   Image,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
-// Import các hằng số và component dùng chung
+// Core Components & Constants
 import { COLORS } from '../../../constants/colors'; 
 import RescueHeader from '../../../components/RescueHeader'; 
+// ✅ Import Modal thông báo thành công
+import RescueReportSentModal from '../../../components/RescueReportSentModal'; 
 
 export default function YeuCauVatTuScreen() {
   const router = useRouter();
@@ -24,6 +25,8 @@ export default function YeuCauVatTuScreen() {
   // --- STATE QUẢN LÝ DỮ LIỆU ---
   const [activeTab, setActiveTab] = useState('new'); 
   const [note, setNote] = useState('');
+  // ✅ State điều khiển Modal
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const [medicalSupplies, setMedicalSupplies] = useState([
     { id: 'm1', name: 'Băng gạc vô trùng', quantity: 2, selected: false },
@@ -35,7 +38,6 @@ export default function YeuCauVatTuScreen() {
     { id: 'p2', name: 'Găng tay cách điện', quantity: 0, selected: false },
   ]);
 
-  // Dữ liệu mẫu Tab Lịch sử
   const [historyData] = useState([
     { id: 'YC-113', date: '07:00 - 4/3/2026', status: 'Đã duyệt' },
     { id: 'YC-114', date: '10:30 - 11/04/2026', status: 'Đang xử lý' },
@@ -62,9 +64,20 @@ export default function YeuCauVatTuScreen() {
     else setProtectiveGear(updateFn);
   };
 
-  // --- GIAO DIỆN CHÍNH ---
+  // ✅ Hàm xử lý khi gửi yêu cầu
+  const handleSubmit = () => {
+    console.log("Đã gửi yêu cầu vật tư");
+    setIsModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+    // Sau khi báo cáo xong có thể quay về Home hoặc ở lại tùy sếp, Huy chọn quay về cho gọn
+    router.back(); 
+  };
+
   return (
-    <View style={styles.container} edges={['top']}>
+    <View style={styles.container}>
       <KeyboardAvoidingView
         style={styles.flex1}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -73,11 +86,11 @@ export default function YeuCauVatTuScreen() {
           title="Yêu cầu vật tư" 
           onRightPress={() => console.log("Thêm mới")} 
           rightIcon="add"
+          onBackPress={() => router.back()}
         />
 
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
           
-          {/* TAB SELECTOR */}
           <View style={styles.tabContainer}>
             <TabButton 
               label="Tạo yêu cầu mới" 
@@ -92,7 +105,6 @@ export default function YeuCauVatTuScreen() {
           </View>
 
           {activeTab === 'new' ? (
-            // TAB TẠO MỚI (GIỮ NGUYÊN CỦA BẠN)
             <View>
               <View style={styles.searchContainer}>
                 <Ionicons name="search" size={20} color="#999" style={styles.searchIcon} />
@@ -123,17 +135,19 @@ export default function YeuCauVatTuScreen() {
                 textAlignVertical="top"
               />
 
-              <TouchableOpacity style={styles.submitButton} activeOpacity={0.8}>
+              {/* ✅ Gắn sự kiện gửi yêu cầu */}
+              <TouchableOpacity 
+                style={styles.submitButton} 
+                activeOpacity={0.8}
+                onPress={handleSubmit}
+              >
                 <Text style={styles.submitButtonText}>Gửi yêu cầu</Text>
               </TouchableOpacity>
             </View>
           ) : (
-            // TAB LỊCH SỬ (CARD YC-113 THẲNG CỘT & CĂN GIỮA ICON)
             <View style={styles.historyContainer}>
               {historyData.map(item => (
                 <TouchableOpacity key={item.id} style={styles.ycCard} activeOpacity={0.9}>
-                  
-                  {/* BOX ICON CĂN GIỮA VÀ CÓ NỀN */}
                   <View style={styles.iconBoxContainer}>
                      <View style={styles.iconBackground}>
                         <Image 
@@ -144,7 +158,6 @@ export default function YeuCauVatTuScreen() {
                      </View>
                   </View>
 
-                  {/* CỘT NỘI DUNG BÊN PHẢI (THẲNG HÀNG DỌC) */}
                   <View style={styles.contentColumn}>
                     <View style={styles.idRow}>
                       <Text style={styles.ycIdText}>{item.id}</Text>
@@ -155,26 +168,30 @@ export default function YeuCauVatTuScreen() {
                         <Text style={styles.statusTextPurple}>{item.status}</Text>
                       </View>
                     </View>
-
                     <Text style={styles.ycDateText}>{item.date}</Text>
-
                     <TouchableOpacity style={styles.detailBtn}>
                       <Text style={styles.detailBtnText}>Chi tiết</Text>
                     </TouchableOpacity>
                   </View>
-
                 </TouchableOpacity>
               ))}
             </View>
           )}
-
         </ScrollView>
+
+        {/* ✅ BẢNG THÔNG BÁO ĐÃ GỬI YÊU CẦU */}
+        <RescueReportSentModal 
+          isVisible={isModalVisible} 
+          onClose={handleCloseModal} 
+        />
+
       </KeyboardAvoidingView>
     </View>
   );
 }
 
-// --- HELPER COMPONENTS ---
+// ... Các Helper Components (TabButton, SectionHeader, SupplyItem) giữ nguyên như cũ
+
 const TabButton = ({ label, isActive, onPress }) => (
   <TouchableOpacity style={[styles.tabButton, isActive && styles.tabActive]} onPress={onPress}>
     <Text style={[styles.tabText, isActive && styles.tabTextActive]}>{label}</Text>
@@ -211,22 +228,21 @@ const SupplyItem = ({ item, category, onUpdate, onToggle }) => (
 );
 
 // ==========================================
-// 🎨 STYLE TỔNG HỢP: GIỮ NGUYÊN CỦA BẠN & CARD MỚI
+// 🎨 STYLE (Giữ nguyên của Giám đốc)
 // ==========================================
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F8FAFC' },
   flex1: { flex: 1 },
   scrollContent: { paddingHorizontal: 20, paddingBottom: 120 },
 
-  // Tabs (Của bạn)
   tabContainer: { flexDirection: 'row', backgroundColor: '#F6F7F8', borderRadius: 12, padding: 4, marginTop: 16, marginBottom: 24 },
   tabButton: { flex: 1, paddingVertical: 12, alignItems: 'center', borderRadius: 8 },
   tabActive: { backgroundColor: '#F6F7F8', borderColor: '#000000', borderWidth: 1, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.25, shadowRadius: 6, elevation: 5 },
   tabText: { fontSize: 15, color: '#000000', fontWeight: '700' },
   tabTextActive: { color: '#000' },
 
-  // Search & Item (Của bạn)
   searchContainer: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#E0E0E0', borderRadius: 8, paddingHorizontal: 12, height: 48, marginBottom: 24 },
+  searchIcon: { marginRight: 8 },
   searchInput: { flex: 1, fontSize: 15, color: '#000' },
   itemRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
   itemLeft: { flexDirection: 'row', alignItems: 'center' },
@@ -236,14 +252,13 @@ const styles = StyleSheet.create({
   qtyBtnText: { fontSize: 20, color: '#000' },
   qtyText: { fontSize: 15, fontWeight: '600', marginHorizontal: 8, minWidth: 20, textAlign: 'center' },
 
-  // --- STYLE CARD YC-113 (CĂN LỀ & BOX ICON) ---
   historyContainer: { marginTop: 8 },
   ycCard: {
     backgroundColor: '#FFF',
     borderRadius: 20,
     padding: 16,
     flexDirection: 'row',
-    alignItems: 'center', // Căn giữa tất cả theo chiều dọc
+    alignItems: 'center',
     borderWidth: 1,
     borderColor: '#000',
     marginBottom: 16,
@@ -268,17 +283,16 @@ const styles = StyleSheet.create({
   contentColumn: { flex: 1, justifyContent: 'center' },
   idRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 },
   ycIdText: { fontSize: 20, fontWeight: '800', color: '#000' },
-  statusTagPurple: { backgroundColor: '#D1B2FA', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 12 },
-  statusTextPurple: { fontSize: 15, fontWeight: '700', color: '#000' },
+  statusTagPurple: { paddingHorizontal: 15, paddingVertical: 5, borderRadius: 12 },
+  statusTextPurple: { fontSize: 13, fontWeight: '700', color: '#000' },
   ycDateText: { fontSize: 14, color: '#8D8D8D', fontWeight: '500', marginBottom: 6 },
   detailBtn: { backgroundColor: '#D9B18E', paddingVertical: 4, paddingHorizontal: 14, borderRadius: 15, alignSelf: 'flex-start' },
   detailBtnText: { fontSize: 15, fontWeight: '700', color: '#944C16' },
 
-  // Notes & Submit (Của bạn)
   noteLabel: { fontSize: 16, color: '#000', marginTop: 24, marginBottom: 12 },
   noteInput: { borderWidth: 1, borderColor: '#000000', borderRadius: 8, height: 120, padding: 12, fontSize: 15, color: '#000', marginBottom: 24, backgroundColor: '#FFF' },
-  submitButton: { backgroundColor: COLORS.RESCUE_ORANGE, borderRadius: 8, height: 50, alignItems: 'center', justifyContent: 'center', width: 200, alignSelf: 'center', marginTop: 10, elevation: 3 },
-  submitButtonText: { color: '#000000', fontSize: 16, fontWeight: '700' },
+  submitButton: { backgroundColor: COLORS.RESCUE_ORANGE, borderRadius: 12, height: 60, alignItems: 'center', justifyContent: 'center', width: '100%', alignSelf: 'center', marginTop: 10, elevation: 3 },
+  submitButtonText: { color: '#FFF', fontSize: 18, fontWeight: '800' },
   sectionHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 16 },
   sectionTitle: { fontSize: 20, fontWeight: '700', color: '#000' },
   seeAllText: { fontSize: 14, color: '#666', marginBottom: 2 },

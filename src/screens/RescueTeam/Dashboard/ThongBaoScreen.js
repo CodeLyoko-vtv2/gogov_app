@@ -1,4 +1,3 @@
-// src/screens/RescueTeam/Dashboard/ThongBaoScreen.js
 import React, { useState } from 'react';
 import {
   View,
@@ -8,10 +7,8 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-
-// Import các hằng số và icon đã cài đặt
+import { Ionicons } from '@expo/vector-icons'; // Dùng để làm icon "Chưa đọc" cho nổi bật
 import { COLORS } from '../../../constants/colors';
 
 const Vector19 = require('../../../../assets/icons/Vector19.png'); // Icon nhiệm vụ
@@ -21,40 +18,75 @@ export default function ThongBaoScreen() {
   const [activeTab, setActiveTab] = useState('all'); // 'all' | 'unread'
   const router = useRouter();
 
-  // Dữ liệu mẫu khớp với ảnh mockup
   const notifications = [
     {
       id: 1,
       type: 'mission',
       icon: Vector19,
-      // Thiết lập màu nền tròn cực nhạt (Green Pale) cho icon
-      iconBackgroundColor: '#0BDB431A', // ~10% độ đậm
+      iconBackgroundColor: '#0BDB431A',
       title: 'Nhiệm vụ mới: Sơ tán khẩn cấp',
       time: '2 phút trước',
       content: 'Yêu cầu sơ tán người dân ven khu vực bờ sông có nguy cơ sạt lở',
       level: 'Khẩn cấp',
-      route: '/ChiTietThongBao', 
+      route: '/ChiTietThongBao',
+      isRead: false,
     },
     {
       id: 2,
       type: 'request',
       icon: Vector20,
-      // Thiết lập màu nền tròn cực nhạt (Blue Pale) cho icon khiên
-      iconBackgroundColor: '#1C7EFB15', // ~8% độ đậm
+      iconBackgroundColor: '#1C7EFB15',
       title: 'Yêu cầu hỗ trợ đã được duyệt',
       time: '15 phút trước',
       content: 'Yêu cầu thêm 2 thuyền cao su đã được phê duyệt. Xin vui lòng nhận tại kho trung tâm',
+      isRead: true,
+    },
+    {
+      id: 3,
+      type: 'mission',
+      icon: Vector19,
+      iconBackgroundColor: '#0BDB431A',
+      title: 'Cứu hộ: Sập công trình tại Hải Châu',
+      time: '45 phút trước',
+      content: 'Phát hiện có nạn nhân kẹt trong đống đổ nát tại số 12 đường X.',
+      level: 'Cao',
+      route: '/ChiTietThongBao',
+      isRead: false,
+    },
+    {
+      id: 4,
+      type: 'request',
+      icon: Vector20,
+      iconBackgroundColor: '#1C7EFB15',
+      title: 'Cấp phát quân nhu định kỳ',
+      time: '2 giờ trước',
+      content: 'Lô hàng bộ đàm và đèn pin chuyên dụng mới đã về kho.',
+      isRead: true,
+    },
+    {
+      id: 5,
+      type: 'mission',
+      icon: Vector19,
+      iconBackgroundColor: '#0BDB431A',
+      title: 'Cảnh báo: Rò rỉ hóa chất',
+      time: '3 giờ trước',
+      content: 'Phát hiện nồng độ khí lạ tại khu công nghiệp Hòa Khánh.',
+      level: 'Khẩn cấp',
+      route: '/ChiTietThongBao',
+      isRead: false,
     },
   ];
 
+  const filteredNotifications = activeTab === 'unread' 
+    ? notifications.filter(item => !item.isRead) 
+    : notifications;
+
   return (
-    <View style={styles.container} edges={['top']}>
-      {/* 1. HEADER CHUẨN */}
+    <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Thông báo</Text>
       </View>
 
-      {/* 2. TAB SELECTOR */}
       <View style={styles.tabWrapper}>
         <TouchableOpacity 
           style={[styles.tabItem, activeTab === 'all' && styles.tabItemActive]}
@@ -71,19 +103,34 @@ export default function ThongBaoScreen() {
         </TouchableOpacity>
       </View>
 
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {notifications.map((item) => (
-          <TouchableOpacity key={item.id} style={styles.notiItem} onPress={() => router.push(item.route)}>
+      {/* ✅ Thêm contentContainerStyle để chừa chỗ cho NavBar */}
+      <ScrollView 
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
+        {filteredNotifications.map((item) => (
+          <TouchableOpacity 
+            key={item.id} 
+            style={[
+                styles.notiItem, 
+                item.isRead && styles.readItem // ✅ Làm nhạt màu nếu đã đọc
+            ]} 
+            onPress={() => item.route && router.push(item.route)}
+          >
             
-            {/* 3. BOX ICON CĂN GIỮA VÀ CÓ NỀN NHẠT (HÀNG ĐÃ SỬA) */}
             <View style={styles.iconBoxContainer}>
-               {/* Cái nền tròn màu nhạt */}
-               <View style={[styles.iconBackground, { backgroundColor: item.iconBackgroundColor }]}>
-                    <Image source={item.icon} style={styles.statusIcon} resizeMode="contain" />
+               <View style={[
+                   styles.iconBackground, 
+                   { backgroundColor: item.isRead ? item.iconBackgroundColor : '#FFE5E5' } // ✅ Đổi màu nền icon nếu chưa đọc
+               ]}>
+                    {item.isRead ? (
+                        <Image source={item.icon} style={styles.statusIcon} resizeMode="contain" />
+                    ) : (
+                        <Ionicons name="notifications" size={26} color="#E14343" /> // ✅ Đổi icon nổi bật cho tin chưa đọc
+                    )}
                </View>
             </View>
 
-            {/* Nội dung bên phải (Giữ nguyên tăm tắp) */}
             <View style={styles.contentContainer}>
               <View style={styles.contentHeader}>
                 <Text style={styles.notiTitle}>{item.title}</Text>
@@ -112,9 +159,6 @@ export default function ThongBaoScreen() {
   );
 }
 
-// ==========================================
-// 🎨 STYLE: ICON CĂN GIỮA & NỀN BOX
-// ==========================================
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -133,8 +177,6 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: '#000',
   },
-
-  // Tabs
   tabWrapper: {
     flexDirection: 'row',
     paddingHorizontal: 20,
@@ -158,35 +200,38 @@ const styles = StyleSheet.create({
   tabTextActive: {
     color: '#000',
   },
-
-  // Notification Item
+  // ✅ Padding dưới cùng để NavBar không che (Point 3)
+  scrollContent: {
+    paddingBottom: 130, 
+  },
   notiItem: {
     flexDirection: 'row',
     padding: 16,
     borderBottomWidth: 1,
     borderBottomColor: '#F0F0F0',
-    alignItems: 'flex-start', // Đảm bảo icon nằm trên cùng của nội dung
+    alignItems: 'flex-start',
   },
-  
-  // --- STYLE MỚI CHO ICON CÓ NỀN NHẠT ---
+  // ✅ Style làm nhạt màu cho tin đã đọc (Point 1)
+  readItem: {
+    opacity: 0.5,
+  },
   iconBoxContainer: {
     marginRight: 16,
-    paddingTop: 4, // Căn icon xuống một chút cho cân với ID yêu cầu
+    paddingTop: 4,
   },
   iconBackground: {
     width: 48,
     height: 48,
-    borderRadius: 24, // Bo góc cực nhẹ như hình
+    borderRadius: 24,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: '#E8E8E8', // Viền cực mảnh cho cái nền thêm tinh tế
+    borderColor: '#E8E8E8',
   },
   statusIcon: {
-    width: 28, // Icon nhỏ hơn so với nền
+    width: 28,
     height: 28,
   },
-
   contentContainer: {
     flex: 1,
   },
