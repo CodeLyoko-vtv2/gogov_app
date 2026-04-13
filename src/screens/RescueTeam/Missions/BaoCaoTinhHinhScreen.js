@@ -1,4 +1,3 @@
-//src/screens/RescueTeam/Missions/BaoCaoTinhHinhScreen.js
 import React, { useState } from 'react';
 import {
     View,
@@ -9,15 +8,31 @@ import {
     ScrollView,
     KeyboardAvoidingView,
     Platform,
+    Modal,
+    FlatList,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import RescueReportSentModal from '../../../components/RescueReportSentModal'; // Sửa path cho đúng folder nhé sếp
+import RescueReportSentModal from '../../../components/RescueReportSentModal';
 
 export default function BaoCaoTinhHinhScreen() {
     const router = useRouter();
     const [isModalVisible, setIsModalVisible] = useState(false);
+
+    // --- DỮ LIỆU LỰA CHỌN ---
+    const ACCIDENT_OPTIONS = [
+        'Tai nạn hàng không',
+        'Tai nạn đường bộ',
+        'Tai nạn đường thủy',
+        'Cháy nổ / Hỏa hoạn',
+        'Rò rỉ hóa chất / Phóng xạ',
+        'Sập công trình',
+        'Thiên tai / Lũ lụt',
+        'Khác'
+    ];
+
+    const SEVERITY_OPTIONS = ['Thấp', 'Trung bình', 'Cao', 'Khẩn cấp'];
 
     // --- STATE QUẢN LÝ FORM ---
     const [accidentType, setAccidentType] = useState('Tai nạn hàng không');
@@ -26,18 +41,29 @@ export default function BaoCaoTinhHinhScreen() {
     const [selectedResources, setSelectedResources] = useState([]);
     const [description, setDescription] = useState('');
 
-    const handleSubmit = () => {
-        // Sếp có thể thêm logic validate dữ liệu ở đây
-        console.log('Gửi báo cáo', { accidentType, victimCount, selectedResources, description });
+    // State cho Modal chọn (Huy thêm để xử lý lựa chọn)
+    const [pickerVisible, setPickerVisible] = useState(false);
+    const [pickerType, setPickerType] = useState(null); // 'type' hoặc 'severity'
 
-        // Kích hoạt Modal "thần thánh"
+    const openPicker = (type) => {
+        setPickerType(type);
+        setPickerVisible(true);
+    };
+
+    const handleSelect = (item) => {
+        if (pickerType === 'type') setAccidentType(item);
+        else setSeverity(item);
+        setPickerVisible(false);
+    };
+
+    const handleSubmit = () => {
+        console.log('Gửi báo cáo', { accidentType, victimCount, selectedResources, description, severity });
         setIsModalVisible(true);
     };
 
     const handleCloseModal = () => {
         setIsModalVisible(false);
-        // Sau khi báo cáo xong thường sẽ quay về hoặc tới màn hình tiếp theo
-        router.back(); //
+        router.back();
     };
 
     const resources = [
@@ -47,7 +73,6 @@ export default function BaoCaoTinhHinhScreen() {
         { id: 'other', label: 'Khác' },
     ];
 
-    // Logic chọn nhiều nguồn lực
     const toggleResource = (id) => {
         if (selectedResources.includes(id)) {
             setSelectedResources(selectedResources.filter((item) => item !== id));
@@ -58,7 +83,6 @@ export default function BaoCaoTinhHinhScreen() {
 
     return (
         <SafeAreaView style={styles.container} edges={['top']}>
-            {/* 1. HEADER TÁC CHIẾN */}
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
                     <Ionicons name="chevron-back" size={28} color="#000" />
@@ -74,16 +98,18 @@ export default function BaoCaoTinhHinhScreen() {
                     contentContainerStyle={styles.scrollContent}
                     showsVerticalScrollIndicator={false}
                 >
-                    {/* 2. LOẠI TAI NẠN */}
+                    {/* 2. LOẠI TAI NẠN - Đã thêm sự kiện mở chọn */}
                     <View style={styles.inputGroup}>
                         <Text style={styles.label}>Loại tai nạn</Text>
-                        <TouchableOpacity style={styles.dropdown}>
+                        <TouchableOpacity 
+                            style={styles.dropdown} 
+                            onPress={() => openPicker('type')}
+                        >
                             <Text style={styles.dropdownText}>{accidentType}</Text>
                             <Ionicons name="chevron-down" size={20} color="#000" />
                         </TouchableOpacity>
                     </View>
 
-                    {/* 3. SỐ LƯỢNG NẠN NHÂN */}
                     <View style={styles.inputGroup}>
                         <Text style={styles.label}>Số lượng nạn nhân</Text>
                         <TextInput
@@ -96,16 +122,18 @@ export default function BaoCaoTinhHinhScreen() {
                         />
                     </View>
 
-                    {/* 4. MỨC ĐỘ NGHIÊM TRỌNG */}
+                    {/* 4. MỨC ĐỘ NGHIÊM TRỌNG - Đã thêm sự kiện mở chọn */}
                     <View style={styles.inputGroup}>
                         <Text style={styles.label}>Mức độ nghiêm trọng</Text>
-                        <TouchableOpacity style={styles.dropdown}>
+                        <TouchableOpacity 
+                            style={styles.dropdown} 
+                            onPress={() => openPicker('severity')}
+                        >
                             <Text style={styles.dropdownText}>{severity}</Text>
                             <Ionicons name="chevron-down" size={20} color="#000" />
                         </TouchableOpacity>
                     </View>
 
-                    {/* 5. NGUỒN LỰC CẦN THIẾT (GRID 2x2) */}
                     <View style={styles.inputGroup}>
                         <Text style={styles.label}>Nguồn lực cần thiết</Text>
                         <View style={styles.resourceGrid}>
@@ -130,7 +158,6 @@ export default function BaoCaoTinhHinhScreen() {
                         </View>
                     </View>
 
-                    {/* 6. MÔ TẢ CHI TIẾT */}
                     <View style={styles.inputGroup}>
                         <Text style={styles.label}>Mô tả chi tiết tình hình</Text>
                         <TextInput
@@ -145,7 +172,6 @@ export default function BaoCaoTinhHinhScreen() {
                         />
                     </View>
 
-                    {/* 7. NÚT GỬI BÁO CÁO */}
                     <TouchableOpacity
                         style={styles.submitBtn}
                         activeOpacity={0.9}
@@ -159,12 +185,42 @@ export default function BaoCaoTinhHinhScreen() {
                         onClose={handleCloseModal}
                     />
 
+                    {/* --- MODAL CHỌN LỰA (Huy thêm Style ẩn) --- */}
+                    <Modal visible={pickerVisible} transparent animationType="fade">
+                        <View style={styles.modalOverlay}>
+                            <View style={styles.pickerCard}>
+                                <Text style={styles.pickerTitle}>
+                                    {pickerType === 'type' ? 'Chọn loại tai nạn' : 'Chọn mức độ nghiêm trọng'}
+                                </Text>
+                                <FlatList
+                                    data={pickerType === 'type' ? ACCIDENT_OPTIONS : SEVERITY_OPTIONS}
+                                    keyExtractor={(item) => item}
+                                    renderItem={({ item }) => (
+                                        <TouchableOpacity 
+                                            style={styles.optionItem} 
+                                            onPress={() => handleSelect(item)}
+                                        >
+                                            <Text style={styles.optionText}>{item}</Text>
+                                        </TouchableOpacity>
+                                    )}
+                                />
+                                <TouchableOpacity 
+                                    onPress={() => setPickerVisible(false)}
+                                    style={styles.closePickerBtn}
+                                >
+                                    <Text style={{color: '#E14343', fontWeight: '800'}}>ĐÓNG</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </Modal>
+
                 </ScrollView>
             </KeyboardAvoidingView>
         </SafeAreaView>
     );
 }
 
+// GIỮ NGUYÊN STYLE CỦA SẾP - CHỈ THÊM MỘT CHÚT CHO MODAL CHỌN Ở DƯỚI CÙNG
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -186,7 +242,7 @@ const styles = StyleSheet.create({
         fontWeight: '800',
         color: '#000',
         textAlign: 'center',
-        marginRight: 36, // Để bù trừ cho nút back, giúp tiêu đề chính giữa
+        marginRight: 36,
     },
     scrollContent: {
         paddingHorizontal: 25,
@@ -225,7 +281,6 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: '500',
         color: '#000',
-        // Shadow cho input chuẩn Figma
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.25,
@@ -245,7 +300,6 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         padding: 15,
         marginBottom: 12,
-        // Shadow chuẩn Figma 25% cho các card
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.25,
@@ -311,4 +365,38 @@ const styles = StyleSheet.create({
         fontWeight: '800',
         letterSpacing: 1,
     },
+
+    // --- CÁC STYLE PHỤ CHO BỘ CHỌN (KHÔNG ẢNH HƯỞNG LAYOUT CHÍNH) ---
+    modalOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    pickerCard: {
+        width: '80%',
+        backgroundColor: '#FFF',
+        borderRadius: 20,
+        padding: 20,
+        maxHeight: '70%',
+    },
+    pickerTitle: {
+        fontSize: 18,
+        fontWeight: '800',
+        marginBottom: 15,
+        textAlign: 'center',
+    },
+    optionItem: {
+        paddingVertical: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: '#EEE',
+    },
+    optionText: {
+        fontSize: 16,
+        fontWeight: '600',
+    },
+    closePickerBtn: {
+        marginTop: 15,
+        alignItems: 'center',
+    }
 });

@@ -13,7 +13,7 @@ export const useEmergencySystem = () => {
       console.log("[Hệ thống] Đã hủy báo động cũ đang chạy ngầm.");
     }
 
-    const randomTime = Math.floor(Math.random() * 50000) + 1000;
+    const randomTime = Math.floor(Math.random() * 60000) + 1000;
     console.log(`[Hệ thống] Công tắc ON! Báo động sau: ${randomTime / 1000}s`);
 
     // 2. Gán ID vào biến toàn cục

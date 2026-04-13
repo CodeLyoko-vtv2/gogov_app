@@ -1,4 +1,3 @@
-// src/screens/RescueTeam/Profile/ThanhVienScreen.js
 import React, { useState } from 'react';
 import {
   View,
@@ -8,8 +7,9 @@ import {
   FlatList,
   TextInput,
   TouchableOpacity,
+  Modal, // ✅ Thêm Modal theo yêu cầu
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
 // Import các thành phần "vốn liếng" đã có
@@ -26,13 +26,16 @@ const Ava4 = require('../../../../assets/images/Mask group4.png');
 export default function ThanhVienScreen() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
+  
+  // ✅ STATE QUẢN LÝ MODAL (Mới thêm)
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   // Danh sách quân số đầy đủ
   const fullMembers = [
     { id: '1', name: 'Đoàn Quốc Huy', img: AvaCaptain, role: 'ĐỘI TRƯỞNG', status: 'Sẵn sàng' },
     { id: '2', name: 'Gia Bảo', img: Ava1, role: 'Hậu cần', status: 'Đang làm nhiệm vụ' },
     { id: '3', name: 'Hữu Lộc', img: Ava2, role: 'Kỹ thuật', status: 'Sẵn sàng' },
-    { id: '4', name: 'Gia Bảo (02)', img: Ava4, role: 'Cứu nạn', status: 'Nghỉ phép' },
+    { id: '4', name: 'Đình Tùng', img: Ava4, role: 'Cứu nạn', status: 'Nghỉ phép' },
     { id: '5', name: 'Anh Huy', img: Ava3, role: 'Y tế', status: 'Sẵn sàng' },
   ];
 
@@ -93,18 +96,75 @@ export default function ThanhVienScreen() {
         showsVerticalScrollIndicator={false}
       />
 
-      {/* 4. NÚT THÊM THÀNH VIÊN MỚI (FLOAT) */}
-      <TouchableOpacity style={styles.fab} activeOpacity={0.9}>
+      {/* 4. NÚT THÊM THÀNH VIÊN MỚI (FLOAT) - Đã gắn mở Modal */}
+      <TouchableOpacity 
+        style={styles.fab} 
+        activeOpacity={0.9}
+        onPress={() => setIsModalVisible(true)}
+      >
         <Ionicons name="person-add" size={24} color="#000" />
       </TouchableOpacity>
+
+      {/* 🔥 MODAL HƯỚNG DẪN THÊM THÀNH VIÊN (Mới ghép) */}
+      <Modal
+        visible={isModalVisible}
+        transparent
+        animationType="fade"
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.guideCard}>
+            <View style={styles.guideHeader}>
+              <Text style={styles.guideTitle}>Hướng dẫn thêm quân</Text>
+              <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                <Ionicons name="close-circle" size={28} color="#999" />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.stepList}>
+              <StepItem 
+                icon="qrcode-scan" 
+                text="Quét mã định danh của chiến sĩ mới" 
+              />
+              <StepItem 
+                icon="account-check" 
+                text="Xác nhận thông tin và chứng chỉ cứu hộ" 
+              />
+              <StepItem 
+                icon="shield-star" 
+                text="Phân quyền (Đội phó, Y tế, Hậu cần...)" 
+              />
+            </View>
+
+            <TouchableOpacity 
+              style={styles.confirmBtn}
+              onPress={() => {
+                setIsModalVisible(false);
+                console.log("Tiến hành quét QR...");
+              }}
+            >
+              <Text style={styles.confirmBtnText}>TÔI ĐÃ HIỂU</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
 
+// Sub-component cho từng bước hướng dẫn
+const StepItem = ({ icon, text }) => (
+  <View style={styles.stepContainer}>
+    <View style={styles.stepIconBox}>
+      <MaterialCommunityIcons name={icon} size={24} color="#F27A3A" />
+    </View>
+    <Text style={styles.stepText}>{text}</Text>
+  </View>
+);
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.RESCUE_BACKGROUND },
   
-  // Search
+  // Search (GIỮ NGUYÊN GỐC)
   searchSection: { paddingHorizontal: 20, marginTop: 20, marginBottom: 10 },
   searchBar: {
     flexDirection: 'row',
@@ -115,7 +175,6 @@ const styles = StyleSheet.create({
     height: 50,
     borderWidth: 1,
     borderColor: '#000000',
-    // Shadow chuẩn Figma 25%
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
@@ -124,7 +183,7 @@ const styles = StyleSheet.create({
   },
   searchInput: { flex: 1, marginLeft: 10, fontSize: 16, fontWeight: '500' },
 
-  // List
+  // List (GIỮ NGUYÊN GỐC)
   listContent: { paddingHorizontal: 20, paddingBottom: 100, paddingTop: 10 },
   memberCard: {
     flexDirection: 'row',
@@ -133,7 +192,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 12,
     marginBottom: 15,
-    // Shadow X0 Y4 Blur4 25%
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.25,
@@ -145,12 +203,12 @@ const styles = StyleSheet.create({
   memberName: { fontSize: 18, fontWeight: '800', color: '#000', marginBottom: 2 },
   memberRole: { fontSize: 14, color: '#888', fontWeight: '600', marginBottom: 5 },
   
-  // Status
+  // Status (GIỮ NGUYÊN GỐC)
   statusRow: { flexDirection: 'row', alignItems: 'center' },
   statusDot: { width: 8, height: 8, borderRadius: 4, marginRight: 6 },
   statusText: { fontSize: 12, fontWeight: '700', color: '#666' },
 
-  // Floating Action Button
+  // Floating Action Button (GIỮ NGUYÊN GỐC - Hình vuông bo góc 10)
   fab: {
     position: 'absolute',
     bottom: 30,
@@ -167,4 +225,82 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 5,
   },
+
+  // ✅ CÁC STYLE MỚI CHO MODAL (NỐI TIẾP VÀO ĐUÔI)
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  guideCard: {
+    width: '85%',
+    backgroundColor: '#FFF',
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: '#000',
+    padding: 25,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
+    elevation: 10,
+  },
+  guideHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 25,
+  },
+  guideTitle: {
+    fontSize: 22,
+    fontWeight: '900',
+    color: '#000',
+  },
+  stepList: {
+    gap: 20,
+    marginBottom: 30,
+  },
+  stepContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 15,
+  },
+  stepIconBox: {
+    width: 44,
+    height: 44,
+    backgroundColor: '#FFF',
+    borderWidth: 1.5,
+    borderColor: '#000',
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  stepText: {
+    flex: 1,
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#333',
+    lineHeight: 22,
+  },
+  confirmBtn: {
+    backgroundColor: '#16A34A',
+    height: 55,
+    borderRadius: 15,
+    borderWidth: 2,
+    borderColor: '#000',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 0,
+    elevation: 4,
+  },
+  confirmBtnText: {
+    color: '#FFF',
+    fontSize: 18,
+    fontWeight: '900',
+    letterSpacing: 1,
+  }
 });
